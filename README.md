@@ -51,8 +51,9 @@ The landing page is drafted to support a full project website with:
 
 - Put benchmark submissions under `submissions/<benchmark-name>/team-name.csv`
 - Supported benchmark names in the scoring scaffold are `iid`, `geo-aware`, and `zero-shot`
+- Submission PRs must fill out the standardized metadata block from [`.github/pull_request_template.md`](./.github/pull_request_template.md)
 - Pull requests are scored automatically and receive a PR comment with the score preview
-- After a submission is merged to `main`, the scoring workflow updates `leaderboards/<benchmark>.json` and opens a PR with the leaderboard change
+- After a submission is merged to `main`, the scoring workflow updates `leaderboards/<benchmark>.json` with score and PR metadata, then opens a PR with the leaderboard change
 
 ## Scoring Files
 

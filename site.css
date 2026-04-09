@@ -601,6 +601,18 @@ thead th {
     gap: 1.2rem;
 }
 
+.leaderboard-empty {
+    margin: 1rem 0 0;
+    color: var(--muted);
+}
+
+.leaderboard-meta {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
 .submission-box {
     margin-top: 1.2rem;
     padding-top: 1.2rem;

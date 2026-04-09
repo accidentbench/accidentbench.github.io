@@ -74,43 +74,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="table-card">
+                <div class="table-card leaderboard-table-card" data-leaderboard-src="./leaderboards/iid.json">
                     <div class="table-head">
-                        <h3>Draft leaderboard</h3>
+                        <h3>Leaderboard</h3>
                         <span>In-distribution</span>
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th>Method</th>
+                                <th>Paper</th>
                                 <th>Temporal</th>
                                 <th>Spatial</th>
                                 <th>Type</th>
                                 <th>Unified</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Official baseline</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                            </tr>
-                            <tr>
-                                <td>Submission slot</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                            </tr>
-                        </tbody>
+                        <tbody class="leaderboard-table-body"></tbody>
                     </table>
+                    <p class="leaderboard-empty">No scored submissions yet.</p>
                 </div>
             </div>
         </section>
     </main>
     <script src="site.js"></script>
     <script src="submission-scoring.js"></script>
+    <script src="leaderboard-render.js"></script>
 </body>
 </html>

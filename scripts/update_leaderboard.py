@@ -13,10 +13,14 @@ def main() -> None:
     parser.add_argument("--scores", required=True, type=Path)
     parser.add_argument("--submission", required=True, type=Path)
     parser.add_argument("--benchmark", required=True, choices=["iid", "geo-aware", "zero-shot"])
+    parser.add_argument("--metadata", type=Path)
     parser.add_argument("--leaderboard", required=True, type=Path)
     args = parser.parse_args()
 
     scores = json.loads(args.scores.read_text(encoding="utf-8"))
+    metadata = {}
+    if args.metadata and args.metadata.exists():
+        metadata = json.loads(args.metadata.read_text(encoding="utf-8"))
     if args.leaderboard.exists():
         leaderboard = json.loads(args.leaderboard.read_text(encoding="utf-8"))
     else:
@@ -30,6 +34,13 @@ def main() -> None:
         "submission_name": slugify_submission_name(args.submission.name),
         "source_file": str(args.submission),
         "scored_at": datetime.now(timezone.utc).isoformat(),
+        "method_name": metadata.get("method_name"),
+        "authors": metadata.get("authors"),
+        "affiliation": metadata.get("affiliation"),
+        "paper_url": metadata.get("paper_url"),
+        "code_url": metadata.get("code_url"),
+        "contact_email": metadata.get("contact_email"),
+        "short_description": metadata.get("short_description"),
         "matched_rows": scores["matched_rows"],
         "submission_rows": scores["submission_rows"],
         "unified_score": scores["unified_score"],
