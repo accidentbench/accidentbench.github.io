@@ -25,7 +25,6 @@
                     </div>
                 </div>
                 <a href="./index.html#assets">Assets</a>
-                <a href="./index.html#supplementary">Supplementary</a>
             </nav>
         </div>
     </header>
@@ -44,6 +43,36 @@
                 <div class="card prose-card">
                     <h3>What this page is for</h3>
                     <p>This page can hold the official zero-shot leaderboard, prompting conventions, evaluation rules, and model-specific notes for public submissions.</p>
+                    <div class="submission-box" data-benchmark="zero-shot">
+                        <h3>Score Your CSV</h3>
+                        <p>Choose a submission CSV from disk to compute a browser-side preview score for the zero-shot benchmark page. This preview currently evaluates against all labeled clips because no dedicated zero-shot split column is present in <code>labels.csv</code>.</p>
+                        <label class="upload-button">
+                            <span>Select CSV File</span>
+                            <input class="submission-input" type="file" accept=".csv,text/csv">
+                        </label>
+                        <p class="submission-status">No file selected.</p>
+                        <div class="score-results" hidden>
+                            <div class="score-grid">
+                                <div class="score-card">
+                                    <span class="score-label">Unified</span>
+                                    <strong data-score="unified">-</strong>
+                                </div>
+                                <div class="score-card">
+                                    <span class="score-label">Type</span>
+                                    <strong data-score="type">-</strong>
+                                </div>
+                                <div class="score-card">
+                                    <span class="score-label">Temporal @ 1.0</span>
+                                    <strong data-score="temporal">-</strong>
+                                </div>
+                                <div class="score-card">
+                                    <span class="score-label">Spatial @ 1.0</span>
+                                    <strong data-score="spatial">-</strong>
+                                </div>
+                            </div>
+                            <p class="score-note" data-score="matched"></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="table-card">
                     <div class="table-head">
@@ -81,5 +110,7 @@
             </div>
         </section>
     </main>
+    <script src="site.js"></script>
+    <script src="submission-scoring.js"></script>
 </body>
 </html>

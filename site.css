@@ -120,6 +120,8 @@ a {
 
 .nav-dropdown {
     position: relative;
+    padding-bottom: 0.9rem;
+    margin-bottom: -0.9rem;
 }
 
 .nav-dropdown-toggle {
@@ -157,7 +159,7 @@ a {
 
 .nav-dropdown-menu {
     position: absolute;
-    top: calc(100% + 0.75rem);
+    top: calc(100% + 0.2rem);
     left: 0;
     min-width: 14rem;
     display: grid;
@@ -599,6 +601,85 @@ thead th {
     gap: 1.2rem;
 }
 
+.submission-box {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+}
+
+.submission-box p {
+    color: var(--muted);
+}
+
+.upload-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0.72rem 1.08rem;
+    border-radius: 999px;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff9f5;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.upload-button:hover {
+    transform: translateY(-1px);
+    background: var(--accent-dark);
+}
+
+.upload-button input {
+    display: none;
+}
+
+.submission-status,
+.score-note {
+    margin-top: 0.9rem;
+    color: var(--muted);
+}
+
+.score-results {
+    margin-top: 1rem;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.score-card {
+    padding: 1rem;
+    border-radius: 16px;
+    background: var(--surface-soft);
+}
+
+.score-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.score-card strong {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: 1.5rem;
+}
+
+.submission-box code {
+    padding: 0.15rem 0.35rem;
+    border-radius: 6px;
+    background: rgba(29, 26, 23, 0.06);
+    font-family: "SFMono-Regular", Menlo, monospace;
+    font-size: 0.92em;
+}
+
 .footer-shell {
     display: flex;
     justify-content: space-between;
@@ -614,7 +695,8 @@ thead th {
     .asset-grid,
     .footer-shell,
     .leaderboard-links,
-    .leaderboard-page-grid {
+    .leaderboard-page-grid,
+    .score-grid {
         grid-template-columns: 1fr;
         display: grid;
     }
@@ -637,7 +719,7 @@ thead th {
 
     .nav-dropdown-menu {
         position: static;
-        margin-top: 0.4rem;
+        margin-top: 0.2rem;
         opacity: 1;
         pointer-events: auto;
         transform: none;
