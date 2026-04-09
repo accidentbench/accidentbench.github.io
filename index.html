@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCIDENT Project Page</title>
+    <meta name="description" content="ACCIDENT: a benchmark dataset for accident detection from traffic surveillance videos.">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="#top">ACCIDENT</a>
+            <nav class="main-nav" aria-label="Primary">
+                <a href="#overview">Overview</a>
+                <a href="#benchmark">Benchmark</a>
+                <a href="#leaderboards">Leaderboards</a>
+                <a href="#assets">Assets</a>
+                <a href="#supplementary">Supplementary</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">Project Website Draft</p>
+                    <h1>ACCIDENT</h1>
+                    <p class="hero-subtitle">A benchmark dataset for accident detection from traffic surveillance videos.</p>
+                    <p class="hero-text">
+                        ACCIDENT is designed for evaluation in supervised, few-shot, and zero-shot settings. The benchmark focuses on three core tasks: temporal localization, spatial localization, and collision type classification in challenging CCTV footage.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#supplementary">Project overview</a>
+                        <a class="button button-secondary" href="#leaderboards">Benchmarks</a>
+                    </div>
+                    <ul class="meta-list">
+                        <li>2,027 curated benchmark clips described in the abstract</li>
+                        <li>Real-world CCTV footage with temporal, spatial, and type annotations</li>
+                        <li>CARLA-based synthetic generation pipeline for data-scarce settings</li>
+                    </ul>
+                </div>
+                <div class="hero-media">
+                    <div class="hero-placeholder">
+                        <div class="placeholder-badge">Preview</div>
+                        <h3>Media and paper links will be added soon</h3>
+                        <p>The public page can go live now, while the paper PDF, supplementary materials, and benchmark assets are prepared for release.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Overview</p>
+                    <h2>A project website first, a leaderboard hub second</h2>
+                </div>
+                <div class="two-column">
+                    <div class="card prose-card">
+                        <h3>Why this benchmark</h3>
+                        <p>
+                            Most accident understanding work is built around dashcam data or narrow CCTV collections. ACCIDENT is structured around difficult surveillance footage and supports broader evaluation regimes, including zero-shot and few-shot settings.
+                        </p>
+                        <p>
+                            The website is drafted to present the paper clearly while also leaving room for multiple benchmarks, evaluation tracks, and evolving code releases.
+                        </p>
+                    </div>
+                    <div class="card prose-card">
+                        <h3>Core tasks</h3>
+                        <ul class="feature-list">
+                            <li><strong>Temporal localization:</strong> when the accident happens.</li>
+                            <li><strong>Spatial localization:</strong> where the accident occurs in the frame.</li>
+                            <li><strong>Collision type classification:</strong> what type of event is observed.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benchmark" class="section section-accent">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Benchmark Design</p>
+                    <h2>Multiple tracks are built into the website structure</h2>
+                </div>
+                <div class="benchmark-grid">
+                    <article class="card track-card">
+                        <span class="track-tag">Track A</span>
+                        <h3>Zero-shot evaluation</h3>
+                        <p>For foundation models and VLMs tested without task-specific training on ACCIDENT.</p>
+                    </article>
+                    <article class="card track-card">
+                        <span class="track-tag">Track B</span>
+                        <h3>Few-shot adaptation</h3>
+                        <p>For methods that adapt with limited labeled data and must remain robust to scarcity.</p>
+                    </article>
+                    <article class="card track-card">
+                        <span class="track-tag">Track C</span>
+                        <h3>Fully supervised</h3>
+                        <p>For conventional training with benchmark splits and standardized evaluation protocols.</p>
+                    </article>
+                    <article class="card track-card">
+                        <span class="track-tag">Track D</span>
+                        <h3>Sim-to-real transfer</h3>
+                        <p>For models leveraging synthetic accident generation to improve real CCTV performance.</p>
+                    </article>
+                </div>
+                <div class="callout">
+                    <strong>Drafting note:</strong> this section is intentionally modular so you can later split it into public benchmark pages, challenge tracks, or separate task tabs without redesigning the whole homepage.
+                </div>
+            </div>
+        </section>
+
+        <section id="leaderboards" class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Leaderboards</p>
+                    <h2>Draft tables for multiple benchmarks</h2>
+                    <p class="section-text">
+                        These are website placeholders meant to establish the structure now. Replace the rows with official methods, metrics, and submission results once the benchmark is public.
+                    </p>
+                </div>
+                <div class="leaderboard-shell">
+                    <div class="tab-buttons" role="tablist" aria-label="Leaderboard categories">
+                        <button class="tab-button active" data-tab="temporal" type="button">Temporal</button>
+                        <button class="tab-button" data-tab="spatial" type="button">Spatial</button>
+                        <button class="tab-button" data-tab="type" type="button">Type</button>
+                        <button class="tab-button" data-tab="transfer" type="button">Transfer</button>
+                    </div>
+
+                    <div class="tab-panel active" id="tab-temporal">
+                        <div class="table-card">
+                            <div class="table-head">
+                                <h3>Temporal Localization</h3>
+                                <span>Draft leaderboard</span>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Track</th>
+                                        <th>Metric</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Baseline VLM</td>
+                                        <td>Zero-shot</td>
+                                        <td>Temporal score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Motion heuristic</td>
+                                        <td>Few-shot</td>
+                                        <td>Temporal score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Official supervised baseline</td>
+                                        <td>Supervised</td>
+                                        <td>Temporal score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="tab-spatial">
+                        <div class="table-card">
+                            <div class="table-head">
+                                <h3>Spatial Localization</h3>
+                                <span>Draft leaderboard</span>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Track</th>
+                                        <th>Metric</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Detection-aware VLM</td>
+                                        <td>Zero-shot</td>
+                                        <td>Spatial score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Region proposal baseline</td>
+                                        <td>Few-shot</td>
+                                        <td>Spatial score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Official supervised baseline</td>
+                                        <td>Supervised</td>
+                                        <td>Spatial score</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="tab-type">
+                        <div class="table-card">
+                            <div class="table-head">
+                                <h3>Collision Type Classification</h3>
+                                <span>Draft leaderboard</span>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Track</th>
+                                        <th>Metric</th>
+                                        <th>Score</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Prompted VLM</td>
+                                        <td>Zero-shot</td>
+                                        <td>Type accuracy</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Low-data classifier</td>
+                                        <td>Few-shot</td>
+                                        <td>Type F1</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Official supervised baseline</td>
+                                        <td>Supervised</td>
+                                        <td>Type F1</td>
+                                        <td>TBD</td>
+                                        <td>Coming soon</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="tab-transfer">
+                        <div class="table-card">
+                            <div class="table-head">
+                                <h3>Synthetic-to-Real Transfer</h3>
+                                <span>Draft leaderboard</span>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>Source</th>
+                                        <th>Target</th>
+                                        <th>Metric</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CARLA pretrain + ACCIDENT eval</td>
+                                        <td>Synthetic</td>
+                                        <td>Real CCTV</td>
+                                        <td>Transfer score</td>
+                                        <td>TBD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mixed real/synthetic baseline</td>
+                                        <td>Hybrid</td>
+                                        <td>Real CCTV</td>
+                                        <td>Transfer score</td>
+                                        <td>TBD</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="assets" class="section section-dark">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Assets</p>
+                    <h2>Real data, synthetic scenarios, and dataset statistics</h2>
+                </div>
+                <div class="asset-grid">
+                    <article class="card asset-card">
+                        <div class="asset-placeholder">Dataset stats figure</div>
+                        <h3>Dataset statistics</h3>
+                        <p>Use this panel for the benchmark summary: distribution, diversity, challenge factors, and split design.</p>
+                    </article>
+                    <article class="card asset-card">
+                        <div class="asset-placeholder">Synthetic scenario video</div>
+                        <h3>Synthetic generation</h3>
+                        <p>Show how the simulator supports rare scenarios, data scarcity, and transfer experiments.</p>
+                    </article>
+                    <article class="card asset-card">
+                        <div class="asset-placeholder">Real-world example video</div>
+                        <h3>Real-world footage</h3>
+                        <p>Highlight the difficulty of CCTV accident understanding: low quality, clutter, occlusion, and viewpoint variability.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="supplementary" class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Supplementary</p>
+                    <h2>Link out to deeper visual material</h2>
+                </div>
+                <div class="two-column">
+                    <div class="card prose-card">
+                        <h3>Supplementary website</h3>
+                        <p>
+                            The existing supplementary page already contains richer galleries of real data, synthetic scenarios, and comparison material against prior CCTV datasets. It will be linked here once the release-ready assets are uploaded.
+                        </p>
+                        <span class="button button-disabled">Supplementary coming soon</span>
+                    </div>
+                    <div class="card prose-card">
+                        <h3>What to add next</h3>
+                        <ul class="feature-list">
+                            <li>Author block and affiliations.</li>
+                            <li>ArXiv, code, and dataset links once public.</li>
+                            <li>Citation block and BibTeX.</li>
+                            <li>Submission instructions for benchmark participants.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <p>ACCIDENT project website draft.</p>
+            <p>Paper and supplementary materials are included in this repository. Benchmark details and code release will be updated.</p>
+        </div>
+    </footer>
+
+    <script src="site.js"></script>
+</body>
+</html>
