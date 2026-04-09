@@ -42,11 +42,8 @@
                     </ul>
                 </div>
                 <div class="hero-media">
-                    <div class="hero-placeholder">
-                        <div class="placeholder-badge">Preview</div>
-                        <h3>Media and paper links will be added soon</h3>
-                        <p>The public page can go live now, while the paper PDF, supplementary materials, and benchmark assets are prepared for release.</p>
-                    </div>
+                    <img src="./assets/figures/main.png" alt="Examples from the ACCIDENT dataset">
+                    <p class="media-caption">Representative real-world clips across viewpoints, weather, quality, and collision types.</p>
                 </div>
             </div>
         </section>
@@ -306,17 +303,21 @@
                 </div>
                 <div class="asset-grid">
                     <article class="card asset-card">
-                        <div class="asset-placeholder">Dataset stats figure</div>
+                        <img src="./assets/figures/group-13.svg" alt="Dataset statistics figure">
                         <h3>Dataset statistics</h3>
                         <p>Use this panel for the benchmark summary: distribution, diversity, challenge factors, and split design.</p>
                     </article>
                     <article class="card asset-card">
-                        <div class="asset-placeholder">Synthetic scenario video</div>
+                        <video controls preload="metadata" muted loop>
+                            <source src="./assets/videos/synthetic/headon-display.mp4" type="video/mp4">
+                        </video>
                         <h3>Synthetic generation</h3>
                         <p>Show how the simulator supports rare scenarios, data scarcity, and transfer experiments.</p>
                     </article>
                     <article class="card asset-card">
-                        <div class="asset-placeholder">Real-world example video</div>
+                        <video controls preload="metadata" muted loop>
+                            <source src="./assets/videos/real-world/tbone-example.mp4" type="video/mp4">
+                        </video>
                         <h3>Real-world footage</h3>
                         <p>Highlight the difficulty of CCTV accident understanding: low quality, clutter, occlusion, and viewpoint variability.</p>
                     </article>
