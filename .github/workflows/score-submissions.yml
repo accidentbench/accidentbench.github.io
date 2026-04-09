@@ -1,0 +1,94 @@
+name: Score Submissions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "submissions/**/*.csv"
+  workflow_dispatch:
+    inputs:
+      submission_path:
+        description: "Path to a submission CSV in the repo"
+        required: true
+        type: string
+      benchmark:
+        description: "Benchmark leaderboard to update"
+        required: true
+        type: choice
+        options:
+          - iid
+          - geo-aware
+          - zero-shot
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Resolve submission path
+        id: resolve
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "submission=${{ github.event.inputs.submission_path }}" >> "$GITHUB_OUTPUT"
+            echo "benchmark=${{ github.event.inputs.benchmark }}" >> "$GITHUB_OUTPUT"
+          else
+            submission=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep '^submissions/.*\.csv$' | tail -n 1)
+            if [ -z "$submission" ]; then
+              echo "No submission CSV found in this push."
+              exit 1
+            fi
+            benchmark=$(echo "$submission" | cut -d/ -f2)
+            echo "submission=$submission" >> "$GITHUB_OUTPUT"
+            echo "benchmark=$benchmark" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Score submission
+        run: |
+          python metrics.py \
+            --submission "${{ steps.resolve.outputs.submission }}" \
+            --labels labels.csv \
+            --output "scoring-results/result.json"
+
+      - name: Update leaderboard JSON
+        run: |
+          python scripts/update_leaderboard.py \
+            --scores scoring-results/result.json \
+            --submission "${{ steps.resolve.outputs.submission }}" \
+            --benchmark "${{ steps.resolve.outputs.benchmark }}" \
+            --leaderboard "leaderboards/${{ steps.resolve.outputs.benchmark }}.json"
+
+      - name: Upload scoring artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scoring-result
+          path: scoring-results/result.json
+
+      - name: Create leaderboard PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update ${{ steps.resolve.outputs.benchmark }} leaderboard"
+          title: "Update ${{ steps.resolve.outputs.benchmark }} leaderboard"
+          body: |
+            Automated leaderboard update for `${{ steps.resolve.outputs.submission }}`.
+
+            This PR was created by the scoring workflow after evaluating the submission against `labels.csv`.
+          branch: "bot/leaderboard-${{ steps.resolve.outputs.benchmark }}"
+          add-paths: |
+            leaderboards/${{ steps.resolve.outputs.benchmark }}.json

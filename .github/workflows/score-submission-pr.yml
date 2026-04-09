@@ -1,0 +1,164 @@
+name: Score Submission PR
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - "submissions/**/*.csv"
+      - "labels.csv"
+      - "metrics.py"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  score-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy
+
+      - name: Find submission file from PR
+        id: pr_file
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                per_page: 100,
+              }
+            );
+            const submissionFiles = files
+              .map((file) => file.filename)
+              .filter((file) => file.startsWith("submissions/") && file.endsWith(".csv"));
+
+            if (submissionFiles.length === 0) {
+              core.setFailed("No submission CSV found under submissions/ in this PR.");
+              return;
+            }
+            if (submissionFiles.length > 1) {
+              core.setFailed(`Expected exactly one submission CSV in the PR, found ${submissionFiles.length}: ${submissionFiles.join(", ")}`);
+              return;
+            }
+
+            const submissionPath = submissionFiles[0];
+            const parts = submissionPath.split("/");
+            if (parts.length < 3) {
+              core.setFailed(`Submission path must follow submissions/<benchmark>/team-name.csv. Got: ${submissionPath}`);
+              return;
+            }
+
+            core.setOutput("submission_path", submissionPath);
+            core.setOutput("benchmark", parts[1]);
+            core.setOutput("head_sha", context.payload.pull_request.head.sha);
+            core.setOutput("head_repo", context.payload.pull_request.head.repo.full_name);
+
+      - name: Download submission from PR head
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ steps.pr_file.outputs.head_repo }}
+          SUBMISSION_PATH: ${{ steps.pr_file.outputs.submission_path }}
+          HEAD_SHA: ${{ steps.pr_file.outputs.head_sha }}
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          repo = os.environ["REPO"]
+          path = os.environ["SUBMISSION_PATH"]
+          sha = os.environ["HEAD_SHA"]
+          url = f"https://api.github.com/repos/{repo}/contents/{path}?ref={sha}"
+
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "Accept": "application/vnd.github+json",
+              },
+          )
+          with urllib.request.urlopen(request) as response:
+              payload = json.load(response)
+
+          content = base64.b64decode(payload["content"])
+          target = Path("pr-submission/submission.csv")
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_bytes(content)
+          print(f"Downloaded {path} to {target}")
+          PY
+
+      - name: Score submission
+        run: |
+          python metrics.py \
+            --submission pr-submission/submission.csv \
+            --labels labels.csv \
+            --output scoring-results/result.json
+
+      - name: Comment PR with score
+        uses: actions/github-script@v7
+        env:
+          BENCHMARK: ${{ steps.pr_file.outputs.benchmark }}
+        with:
+          script: |
+            const fs = require("fs");
+            const scores = JSON.parse(fs.readFileSync("scoring-results/result.json", "utf8"));
+            const body = [
+              "<!-- accident-score-comment -->",
+              `Scoring preview for \`${process.env.BENCHMARK}\` benchmark:`,
+              "",
+              `- Unified score: \`${scores.unified_score.toFixed(4)}\``,
+              `- Type accuracy: \`${scores.type_accuracy.toFixed(4)}\``,
+              `- Temporal @ sigma=1.0: \`${scores.temporal["1"].toFixed(4)}\``,
+              `- Spatial @ sigma=1.0: \`${scores.spatial["1"].toFixed(4)}\``,
+              "",
+              "If this PR is merged, the leaderboard update workflow will open a follow-up PR with the public leaderboard change."
+            ].join("\n");
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                per_page: 100,
+              }
+            );
+
+            const existing = comments.find((comment) =>
+              comment.body && comment.body.includes("<!-- accident-score-comment -->")
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body,
+              });
+            }
