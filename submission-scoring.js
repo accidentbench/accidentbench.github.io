@@ -1,17 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
     const SIGMA = 1.0;
+    const COOLDOWN_SECONDS = 45;
     const taskRoot = document.querySelector(".submission-box");
     if (!taskRoot) {
         return;
     }
 
     const input = taskRoot.querySelector(".submission-input");
+    const scoreButton = taskRoot.querySelector(".score-button");
     const status = taskRoot.querySelector(".submission-status");
     const results = taskRoot.querySelector(".score-results");
+    const submitPrButton = taskRoot.querySelector(".submit-pr-button");
     const splitColumn = taskRoot.dataset.splitColumn;
     const splitValue = taskRoot.dataset.splitValue;
+    const benchmarkName = taskRoot.dataset.benchmark || "default";
+    const cooldownKey = `accident-score-cooldown-${benchmarkName}`;
 
     let labelsPromise;
+    let selectedFile = null;
 
     function parseCsvLine(line) {
         const values = [];
@@ -155,21 +161,50 @@ document.addEventListener("DOMContentLoaded", () => {
         taskRoot.querySelector('[data-score="matched"]').textContent =
             `Matched ${scores.matchedRows} labeled clips out of ${scores.totalPredictionRows} submission rows.`;
         results.hidden = false;
+        if (submitPrButton) {
+            submitPrButton.hidden = false;
+        }
+    }
+
+    function updateCooldownState() {
+        const cooldownUntil = Number(localStorage.getItem(cooldownKey) || 0);
+        const remaining = Math.ceil((cooldownUntil - Date.now()) / 1000);
+        if (remaining > 0) {
+            scoreButton.disabled = true;
+            scoreButton.textContent = `Score Again in ${remaining}s`;
+            return true;
+        }
+
+        scoreButton.disabled = !selectedFile;
+        scoreButton.textContent = "Score Submission";
+        return false;
     }
 
     input.addEventListener("change", async (event) => {
-        const file = event.target.files?.[0];
-        if (!file) {
+        selectedFile = event.target.files?.[0] || null;
+        if (!selectedFile) {
+            return;
+        }
+        status.textContent = `Ready to score ${selectedFile.name}.`;
+        results.hidden = true;
+        if (submitPrButton) {
+            submitPrButton.hidden = true;
+        }
+        updateCooldownState();
+    });
+
+    scoreButton.addEventListener("click", async () => {
+        if (!selectedFile || updateCooldownState()) {
             return;
         }
 
-        status.textContent = `Loading ${file.name}...`;
+        status.textContent = `Scoring ${selectedFile.name}...`;
         results.hidden = true;
 
         try {
             const [labels, text] = await Promise.all([
                 loadLabels(),
-                file.text(),
+                selectedFile.text(),
             ]);
             const predictions = parseCsv(text).map((row) => {
                 if ("Unnamed: 0" in row) {
@@ -185,11 +220,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const scores = scoreSubmission(labels, predictions);
-            status.textContent = `Scored ${file.name}.`;
+            status.textContent = `Scored ${selectedFile.name}.`;
             renderScores(scores);
+            localStorage.setItem(cooldownKey, String(Date.now() + (COOLDOWN_SECONDS * 1000)));
+            updateCooldownState();
         } catch (error) {
             status.textContent = error.message || "Could not score the uploaded file.";
             results.hidden = true;
         }
     });
+
+    updateCooldownState();
+    window.setInterval(updateCooldownState, 1000);
 });

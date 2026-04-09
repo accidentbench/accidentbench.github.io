@@ -653,6 +653,11 @@ thead th {
     color: var(--muted);
 }
 
+.score-button,
+.submit-pr-button {
+    margin-top: 0.9rem;
+}
+
 .score-results {
     margin-top: 1rem;
 }
