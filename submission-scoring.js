@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const input = taskRoot.querySelector(".submission-input");
     const scoreButton = taskRoot.querySelector(".score-button");
-    const status = taskRoot.querySelector(".submission-status");
     const results = taskRoot.querySelector(".score-results");
     const submitPrButton = taskRoot.querySelector(".submit-pr-button");
     const splitColumn = taskRoot.dataset.splitColumn;
@@ -171,21 +170,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const remaining = Math.ceil((cooldownUntil - Date.now()) / 1000);
         if (remaining > 0) {
             scoreButton.disabled = true;
+            scoreButton.classList.remove("is-ready");
             scoreButton.textContent = `Score Again in ${remaining}s`;
             return true;
         }
 
         scoreButton.disabled = !selectedFile;
-        scoreButton.textContent = "Score Submission";
+        scoreButton.classList.toggle("is-ready", Boolean(selectedFile));
+        scoreButton.textContent = selectedFile ? "Score Submission" : "Select A CSV First";
         return false;
     }
 
     input.addEventListener("change", async (event) => {
         selectedFile = event.target.files?.[0] || null;
         if (!selectedFile) {
+            updateCooldownState();
             return;
         }
-        status.textContent = `Ready to score ${selectedFile.name}.`;
         results.hidden = true;
         if (submitPrButton) {
             submitPrButton.hidden = true;
@@ -198,7 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        status.textContent = `Scoring ${selectedFile.name}...`;
         results.hidden = true;
 
         try {
@@ -220,12 +220,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const scores = scoreSubmission(labels, predictions);
-            status.textContent = `Scored ${selectedFile.name}.`;
             renderScores(scores);
             localStorage.setItem(cooldownKey, String(Date.now() + (COOLDOWN_SECONDS * 1000)));
             updateCooldownState();
         } catch (error) {
-            status.textContent = error.message || "Could not score the uploaded file.";
+            window.alert(error.message || "Could not score the uploaded file.");
             results.hidden = true;
         }
     });

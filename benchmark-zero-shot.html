@@ -12,19 +12,18 @@
         <div class="container nav-shell">
             <a class="brand" href="./index.html">ACCIDENT</a>
             <nav class="main-nav" aria-label="Primary">
-                <a href="./index.html#overview">Overview</a>
-                <a href="./index.html#benchmark">Benchmark</a>
+                <a href="./index.html">Home</a>
                 <div class="nav-dropdown">
-                    <button class="nav-dropdown-toggle" type="button" aria-expanded="false">
+                    <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
                         Leaderboards
                     </button>
                     <div class="nav-dropdown-menu" role="menu" aria-label="Benchmark leaderboards">
                         <a href="./benchmark-iid.html" role="menuitem">In-distribution</a>
-                        <a href="./benchmark-geo-aware.html" role="menuitem">Geo-aware</a>
+                        <a href="./benchmark-geo-aware.html" role="menuitem">Out of distribution</a>
                         <a href="./benchmark-zero-shot.html" role="menuitem">Zero-shot</a>
                     </div>
                 </div>
-                <a href="./index.html#assets">Assets</a>
+                <a href="./submit.html">Submission Instructions</a>
             </nav>
         </div>
     </header>
@@ -32,25 +31,29 @@
     <main>
         <section class="section benchmark-page-hero">
             <div class="container">
-                <p class="eyebrow">Benchmark 3</p>
-                <h1>Zero-shot</h1>
-                <p class="hero-subtitle">A benchmark page for methods that operate without benchmark-specific labeled training data.</p>
+                <h1 class="benchmark-page-title">Zero-shot</h1>
+                <p class="benchmark-page-subtitle">A benchmark page for methods that operate without benchmark-specific labeled training data.</p>
             </div>
         </section>
 
         <section class="section">
-            <div class="container leaderboard-page-grid">
+            <div class="container benchmark-top-grid">
                 <div class="card prose-card">
-                    <h3>What this page is for</h3>
-                    <p>This page can hold the official zero-shot leaderboard, prompting conventions, evaluation rules, and model-specific notes for public submissions.</p>
-                    <div class="submission-box" data-benchmark="zero-shot">
-                        <h3>Score Your CSV</h3>
-                        <p>Choose a submission CSV from disk to compute a browser-side preview score for the zero-shot benchmark page. This preview currently evaluates against all labeled clips because no dedicated zero-shot split column is present in <code>labels.csv</code>.</p>
+                    <h3>Benchmark overview</h3>
+                    <p>The zero-shot benchmark evaluates methods that operate without benchmark-specific labeled training data, making it the most constrained public evaluation setting in ACCIDENT.</p>
+                    <ul class="feature-list">
+                        <li><strong>Tasks:</strong> temporal localization, spatial localization, and collision type classification.</li>
+                        <li><strong>Official score:</strong> unified score, with per-task metrics shown separately.</li>
+                        <li><strong>Evaluation note:</strong> the current local preview uses all labeled clips because no dedicated zero-shot split column exists in <code>labels.csv</code>.</li>
+                    </ul>
+                </div>
+                <div class="card prose-card submission-panel">
+                    <div class="submission-box submission-box-standalone" data-benchmark="zero-shot">
+                        <h3>Score Your Submittion</h3>
                         <label class="upload-button">
                             <span>Select CSV File</span>
                             <input class="submission-input" type="file" accept=".csv,text/csv">
                         </label>
-                        <p class="submission-status">No file selected.</p>
                         <button class="button button-primary score-button" type="button" disabled>Score Submission</button>
                         <div class="score-results" hidden>
                             <div class="score-grid">
@@ -72,24 +75,32 @@
                                 </div>
                             </div>
                             <p class="score-note" data-score="matched"></p>
-                            <a class="button button-secondary submit-pr-button" href="https://github.com/accidentbench/accidentbench.github.io/compare/main...main?quick_pull=1" target="_blank" rel="noreferrer" hidden>Submit PR</a>
+                            <a class="button button-secondary submit-pr-button" href="./submit.html#zero-shot" hidden>Submit To The Leaderboard</a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container leaderboard-page-grid">
                 <div class="table-card leaderboard-table-card" data-leaderboard-src="./leaderboards/zero-shot.json">
                     <div class="table-head">
                         <h3>Leaderboard</h3>
-                        <span>Zero-shot</span>
+                        <span>Ranked by unified score</span>
                     </div>
+                    <p class="leaderboard-intro">This table tracks methods evaluated without benchmark-specific supervision and links results back to their paper or code when provided.</p>
                     <table>
                         <thead>
                             <tr>
+                                <th>Rank</th>
                                 <th>Method</th>
                                 <th>Paper</th>
                                 <th>Temporal</th>
                                 <th>Spatial</th>
                                 <th>Type</th>
                                 <th>Unified</th>
+                                <th>Updated</th>
                             </tr>
                         </thead>
                         <tbody class="leaderboard-table-body"></tbody>

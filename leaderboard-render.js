@@ -16,6 +16,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         return Number.isFinite(number) ? number.toFixed(4) : "-";
     }
 
+    function formatDate(value) {
+        if (!value) {
+            return "-";
+        }
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return value;
+        }
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
+    }
+
     function paperCell(entry) {
         const parts = [];
         if (entry.paper_url && entry.paper_url !== "N/A") {
@@ -53,15 +68,32 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
+        const rankedEntries = [...entries].sort((left, right) => {
+            const leftScore = Number(left.unified_score);
+            const rightScore = Number(right.unified_score);
+            if (Number.isFinite(leftScore) && Number.isFinite(rightScore)) {
+                return rightScore - leftScore;
+            }
+            if (Number.isFinite(leftScore)) {
+                return -1;
+            }
+            if (Number.isFinite(rightScore)) {
+                return 1;
+            }
+            return 0;
+        });
+
         empty.hidden = true;
-        body.innerHTML = entries.map((entry) => `
+        body.innerHTML = rankedEntries.map((entry, index) => `
             <tr>
+                <td><strong>${index + 1}</strong></td>
                 <td>${methodCell(entry)}</td>
                 <td>${paperCell(entry)}</td>
                 <td>${formatScore(entry.temporal?.["1"])}</td>
                 <td>${formatScore(entry.spatial?.["1"])}</td>
                 <td>${formatScore(entry.type_accuracy)}</td>
                 <td>${formatScore(entry.unified_score)}</td>
+                <td>${formatDate(entry.updated_at || leaderboard.updated_at)}</td>
             </tr>
         `).join("");
     } catch (error) {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCIDENT Submission Guide</title>
+    <meta name="description" content="How to submit results to the ACCIDENT benchmark leaderboards.">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="./index.html">ACCIDENT</a>
+            <nav class="main-nav" aria-label="Primary">
+                <a href="./index.html">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+                        Leaderboards
+                    </button>
+                    <div class="nav-dropdown-menu" role="menu" aria-label="Benchmark leaderboards">
+                        <a href="./benchmark-iid.html" role="menuitem">In-distribution</a>
+                        <a href="./benchmark-geo-aware.html" role="menuitem">Out of distribution</a>
+                        <a href="./benchmark-zero-shot.html" role="menuitem">Zero-shot</a>
+                    </div>
+                </div>
+                <a href="./submit.html">Submission Instructions</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section benchmark-page-hero">
+            <div class="container">
+                <p class="eyebrow">Submission Guide</p>
+                <h1>Submit To The Leaderboard</h1>
+                <p class="hero-subtitle">Use a GitHub pull request to submit results, attach method metadata, and get an automatic score preview before merge.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container submission-guide-grid">
+                <div class="card prose-card">
+                    <h3>How submission works</h3>
+                    <p>The ACCIDENT benchmark uses GitHub pull requests for submissions. Each submission PR should add exactly one CSV file under the correct benchmark folder and fill out the standardized method metadata block in the PR template.</p>
+                    <p>The PR workflow scores the submission automatically and comments the result. After merge, the leaderboard workflow updates the benchmark leaderboard data.</p>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-head">
+                        <h3>Submission Steps</h3>
+                        <span>GitHub-based flow</span>
+                    </div>
+                    <ol class="submission-steps">
+                        <li>Create a branch in the repository or a fork of the repository.</li>
+                        <li>Add your CSV file under one of these folders:
+                            <div class="submission-paths">
+                                <code>submissions/iid/</code>
+                                <code>submissions/geo-aware/</code>
+                                <code>submissions/zero-shot/</code>
+                            </div>
+                        </li>
+                        <li>Name the file something stable, such as <code>team-name.csv</code> or <code>method-name.csv</code>.</li>
+                        <li>Open a pull request against <code>main</code>. GitHub will prefill the PR template automatically.</li>
+                        <li>Fill in the metadata block with method name, authors, affiliation, paper link, code link, contact email, benchmark, and a short description.</li>
+                        <li>Wait for the PR scoring workflow to comment the score preview.</li>
+                        <li>After review and merge, the leaderboard update workflow will process the result.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-muted">
+            <div class="container submission-guide-grid">
+                <div class="card prose-card" id="iid">
+                    <h3>In-distribution Submission</h3>
+                    <p>Put your file under <code>submissions/iid/</code>. This benchmark corresponds to the standardized split of the real dataset.</p>
+                </div>
+                <div class="card prose-card" id="geo-aware">
+                    <h3>Out of Distribution Submission</h3>
+                    <p>Put your file under <code>submissions/geo-aware/</code>. This benchmark targets generalization under region shift.</p>
+                </div>
+                <div class="card prose-card" id="zero-shot">
+                    <h3>Zero-shot Submission</h3>
+                    <p>Put your file under <code>submissions/zero-shot/</code>. This benchmark targets methods that operate without benchmark-specific labeled training data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="card prose-card">
+                    <h3>CSV Format</h3>
+                    <p>Your CSV must contain the following columns:</p>
+                    <div class="submission-paths">
+                        <code>path</code>
+                        <code>accident_time</code>
+                        <code>center_x</code>
+                        <code>center_y</code>
+                        <code>type</code>
+                    </div>
+                    <p>You can use the sample file already in the repository as a reference.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="site.js"></script>
+</body>
+</html>
