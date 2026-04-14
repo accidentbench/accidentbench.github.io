@@ -7,9 +7,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const source = card.dataset.leaderboardSrc;
     const body = card.querySelector(".leaderboard-table-body");
     const empty = card.querySelector(".leaderboard-empty");
+    const table = card.querySelector("table");
+    const sortButtons = card.querySelectorAll("[data-sort-key]");
     if (!source || !body || !empty) {
         return;
     }
+
+    let sortKey = "unified";
+    let sortDirection = "desc";
 
     function fallbackLeaderboard() {
         const key = source.split("/").pop()?.replace(".json", "");
@@ -39,6 +44,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+    function scoreForKey(entry, key) {
+        if (key === "rank" || key === "unified") {
+            return Number(entry.unified_score);
+        }
+        if (key === "temporal") {
+            return Number(entry.temporal?.["1"]);
+        }
+        if (key === "spatial") {
+            return Number(entry.spatial?.["1"]);
+        }
+        if (key === "type") {
+            return Number(entry.type_accuracy);
+        }
+        if (key === "updated") {
+            const timestamp = new Date(entry.updated_at || 0).getTime();
+            return Number.isFinite(timestamp) ? timestamp : 0;
+        }
+        return Number.NaN;
+    }
+
     function paperCell(entry) {
         const parts = [];
         if (entry.paper_url && entry.paper_url !== "N/A") {
@@ -66,6 +91,52 @@ document.addEventListener("DOMContentLoaded", async () => {
         return lines.join("");
     }
 
+    function compareEntries(left, right) {
+        const leftScore = scoreForKey(left, sortKey);
+        const rightScore = scoreForKey(right, sortKey);
+        const multiplier = sortDirection === "asc" ? 1 : -1;
+
+        if (Number.isFinite(leftScore) && Number.isFinite(rightScore) && leftScore !== rightScore) {
+            return (leftScore - rightScore) * multiplier;
+        }
+        if (Number.isFinite(leftScore)) {
+            return -1;
+        }
+        if (Number.isFinite(rightScore)) {
+            return 1;
+        }
+
+        const leftName = (left.method_name || left.submission_name || "").toLowerCase();
+        const rightName = (right.method_name || right.submission_name || "").toLowerCase();
+        return leftName.localeCompare(rightName);
+    }
+
+    function updateSortButtons() {
+        sortButtons.forEach((button) => {
+            const isActive = button.dataset.sortKey === sortKey;
+            button.dataset.active = isActive ? "true" : "false";
+            button.dataset.direction = isActive ? sortDirection : "";
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+        });
+    }
+
+    function renderRows(entries, leaderboard) {
+        const rankedEntries = [...entries].sort(compareEntries);
+
+        body.innerHTML = rankedEntries.map((entry, index) => `
+            <tr${entry.entry_kind === "baseline" ? ' class="leaderboard-row-baseline"' : ""}>
+                <td><strong>${index + 1}</strong></td>
+                <td>${methodCell(entry)}</td>
+                <td>${paperCell(entry)}</td>
+                <td>${formatScore(entry.temporal?.["1"])}</td>
+                <td>${formatScore(entry.spatial?.["1"])}</td>
+                <td>${formatScore(entry.type_accuracy)}</td>
+                <td>${formatScore(entry.unified_score)}</td>
+                <td>${formatDate(entry.updated_at || leaderboard.updated_at)}</td>
+            </tr>
+        `).join("");
+    }
+
     try {
         let leaderboard = fallbackLeaderboard();
         if (!leaderboard) {
@@ -82,34 +153,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        const rankedEntries = [...entries].sort((left, right) => {
-            const leftScore = Number(left.unified_score);
-            const rightScore = Number(right.unified_score);
-            if (Number.isFinite(leftScore) && Number.isFinite(rightScore)) {
-                return rightScore - leftScore;
-            }
-            if (Number.isFinite(leftScore)) {
-                return -1;
-            }
-            if (Number.isFinite(rightScore)) {
-                return 1;
-            }
-            return 0;
-        });
-
         empty.hidden = true;
-        body.innerHTML = rankedEntries.map((entry, index) => `
-            <tr${entry.entry_kind === "baseline" ? ' class="leaderboard-row-baseline"' : ""}>
-                <td><strong>${index + 1}</strong></td>
-                <td>${methodCell(entry)}</td>
-                <td>${paperCell(entry)}</td>
-                <td>${formatScore(entry.temporal?.["1"])}</td>
-                <td>${formatScore(entry.spatial?.["1"])}</td>
-                <td>${formatScore(entry.type_accuracy)}</td>
-                <td>${formatScore(entry.unified_score)}</td>
-                <td>${formatDate(entry.updated_at || leaderboard.updated_at)}</td>
-            </tr>
-        `).join("");
+        updateSortButtons();
+        renderRows(entries, leaderboard);
+
+        sortButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const nextKey = button.dataset.sortKey;
+                if (!nextKey) {
+                    return;
+                }
+                if (sortKey === nextKey) {
+                    sortDirection = sortDirection === "desc" ? "asc" : "desc";
+                } else {
+                    sortKey = nextKey;
+                    sortDirection = "desc";
+                }
+                updateSortButtons();
+                renderRows(entries, leaderboard);
+                table?.focus();
+            });
+        });
     } catch (error) {
         empty.hidden = false;
         empty.textContent = error.message || "Could not load leaderboard data.";

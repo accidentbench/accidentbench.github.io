@@ -97,18 +97,18 @@
                         <h3>Leaderboard</h3>
                         <span>Ranked by unified score</span>
                     </div>
-                    <p class="leaderboard-intro">This table tracks methods evaluated without benchmark-specific supervision and links results back to their paper or code when provided.</p>
-                    <table>
+                    <p class="leaderboard-intro">This table tracks methods evaluated without benchmark-specific supervision and links results back to their paper or code when provided. Click a metric header to sort the ranking.</p>
+                    <table tabindex="-1">
                         <thead>
                             <tr>
-                                <th>Rank</th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="rank" aria-pressed="false">Rank</button></th>
                                 <th>Method</th>
                                 <th>Paper</th>
-                                <th>T</th>
-                                <th>S</th>
-                                <th>C</th>
-                                <th>ACC<sup>S</sup></th>
-                                <th>Updated</th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="temporal" aria-pressed="false">T</button></th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="spatial" aria-pressed="false">S</button></th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="type" aria-pressed="false">C</button></th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="unified" aria-pressed="false">ACC<sup>S</sup></button></th>
+                                <th><button class="leaderboard-sort-button" type="button" data-sort-key="updated" aria-pressed="false">Updated</button></th>
                             </tr>
                         </thead>
                         <tbody class="leaderboard-table-body"></tbody>

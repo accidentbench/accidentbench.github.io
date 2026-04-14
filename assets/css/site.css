@@ -1062,6 +1062,46 @@ thead th {
     font-size: 0.9rem;
 }
 
+.leaderboard-sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.leaderboard-sort-button::after {
+    content: "↕";
+    font-size: 0.78em;
+    color: rgba(24, 32, 42, 0.4);
+}
+
+.leaderboard-sort-button[data-active="true"] {
+    color: var(--accent);
+}
+
+.leaderboard-sort-button[data-active="true"]::after {
+    color: var(--accent);
+}
+
+.leaderboard-sort-button[data-direction="desc"]::after {
+    content: "↓";
+}
+
+.leaderboard-sort-button[data-direction="asc"]::after {
+    content: "↑";
+}
+
+.leaderboard-sort-button:hover,
+.leaderboard-sort-button:focus-visible {
+    color: var(--accent);
+}
+
 .leaderboard-chip {
     display: inline-flex;
     align-items: center;
@@ -1083,6 +1123,10 @@ thead th {
 .leaderboard-table-card table td:first-child,
 .leaderboard-table-card table th:first-child {
     width: 4.5rem;
+}
+
+.leaderboard-table-card table {
+    outline: none;
 }
 
 .comparison-card table th:first-child,
