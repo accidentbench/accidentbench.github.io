@@ -111,6 +111,7 @@ jobs:
           python scripts/metrics.py \
             --submission "${{ steps.resolve.outputs.submission }}" \
             --labels data/labels.csv \
+            --benchmark "${{ steps.resolve.outputs.benchmark }}" \
             --output "scoring-results/result.json"
 
       - name: Update leaderboard JSON

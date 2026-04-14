@@ -115,7 +115,27 @@ jobs:
               return;
             }
 
-            if (parsed.benchmark !== "${{ steps.pr_file.outputs.benchmark }}") {
+            const aliases = {
+              "iid": "iid",
+              "in-distribution": "iid",
+              "in_distribution": "iid",
+              "ood": "geo-aware",
+              "out-of-distribution": "geo-aware",
+              "out_of_distribution": "geo-aware",
+              "geo-aware": "geo-aware",
+              "geo_aware": "geo-aware",
+              "zero-shot": "zero-shot",
+              "zero_shot": "zero-shot",
+              "zeroshot": "zero-shot",
+            };
+            const rawBenchmark = String(parsed.benchmark || "").trim().toLowerCase();
+            const normalizedBenchmark = aliases[rawBenchmark];
+            if (!normalizedBenchmark) {
+              core.setFailed(`Unsupported PR metadata benchmark '${parsed.benchmark}'. Use one of: In-distribution, Out-of-distribution, Zero-shot, iid, geo-aware, zero-shot.`);
+              return;
+            }
+
+            if (normalizedBenchmark !== "${{ steps.pr_file.outputs.benchmark }}") {
               core.setFailed(`PR metadata benchmark '${parsed.benchmark}' does not match submission path benchmark '${{ steps.pr_file.outputs.benchmark }}'.`);
             }
 
@@ -160,6 +180,7 @@ jobs:
           python scripts/metrics.py \
             --submission pr-submission/submission.csv \
             --labels data/labels.csv \
+            --benchmark "${{ steps.pr_file.outputs.benchmark }}" \
             --output scoring-results/result.json
 
       - name: Comment PR with score
