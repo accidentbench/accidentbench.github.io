@@ -1,1 +1,10 @@
 .DS_Store
+.idea/
+supplementary/
+accident-submissions/
+AUTOPILOT-0001*.pdf
+_CVPRW26____ACCIDENT*.pdf
+accident-all-scores-*.csv
+pr-submission/
+scoring-results/
+__pycache__/

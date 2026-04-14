@@ -8,8 +8,8 @@ on:
       - reopened
     paths:
       - "submissions/**/*.csv"
-      - "labels.csv"
-      - "metrics.py"
+      - "data/labels.csv"
+      - "scripts/metrics.py"
 
 permissions:
   contents: read
@@ -157,9 +157,9 @@ jobs:
 
       - name: Score submission
         run: |
-          python metrics.py \
+          python scripts/metrics.py \
             --submission pr-submission/submission.csv \
-            --labels labels.csv \
+            --labels data/labels.csv \
             --output scoring-results/result.json
 
       - name: Comment PR with score

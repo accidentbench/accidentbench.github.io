@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCIDENT Zero-shot Benchmark</title>
+    <meta name="description" content="ACCIDENT zero-shot benchmark leaderboard and evaluation page.">
+    <link rel="stylesheet" href="../../assets/css/site.css">
+    <script data-goatcounter="https://accidentbench.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="../../index.html">ACCIDENT</a>
+            <nav class="main-nav" aria-label="Primary">
+                <a href="../../index.html">Home</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+                        Leaderboards
+                    </button>
+                    <div class="nav-dropdown-menu" role="menu" aria-label="Benchmark leaderboards">
+                        <a href="../in-distribution/index.html" role="menuitem">In-distribution</a>
+                        <a href="../out-of-distribution/index.html" role="menuitem">Out of distribution</a>
+                        <a href="../zero-shot/index.html" role="menuitem">Zero-shot</a>
+                    </div>
+                </div>
+                <a href="../../submission/index.html">Submission Instructions</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="section benchmark-page-hero">
+            <div class="container">
+                <h1 class="benchmark-page-title">Zero-shot</h1>
+                <p class="benchmark-page-subtitle">A benchmark for methods that operate without benchmark-specific labeled training data.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container benchmark-top-grid">
+                <div class="card prose-card">
+                    <h3>Benchmark overview</h3>
+                    <p>The zero-shot benchmark targets settings in which no labeled training data is available. Methods are evaluated directly on the real dataset without benchmark-specific supervision, reflecting deployment scenarios where accident-specific labels cannot be collected in advance and favoring prompt-based, instruction-based, and other training-free approaches.</p>
+                    <ul class="feature-list">
+                        <li><strong>Tasks:</strong> temporal localization, spatial localization, and collision type classification.</li>
+                        <li><strong>Protocol:</strong> no benchmark-specific labeled training partition is used; evaluation is performed on all 2,027 real clips.</li>
+                        <li><strong>Official score:</strong> unified ACCIDENT score with the three task-specific metrics reported separately.</li>
+                    </ul>
+                </div>
+                <div class="card prose-card submission-panel">
+                    <div class="submission-box submission-box-standalone" data-benchmark="zero-shot" data-labels-src="../../data/labels.csv">
+                        <h3>Score Your Submittion</h3>
+                        <label class="upload-button">
+                            <span>Select CSV File</span>
+                            <input class="submission-input" type="file" accept=".csv,text/csv">
+                        </label>
+                        <button class="button button-primary score-button" type="button" disabled>Score Submission</button>
+                        <dialog class="score-dialog">
+                            <div class="score-dialog-head">
+                                <h4>Submission Scores</h4>
+                                <button class="score-dialog-close" type="button" aria-label="Close score dialog">&times;</button>
+                            </div>
+                            <p class="score-dialog-message" hidden></p>
+                            <div class="score-results" hidden>
+                                <div class="score-grid">
+                                    <div class="score-card">
+                                        <span class="score-label">ACC<sup>S</sup></span>
+                                        <strong data-score="unified">-</strong>
+                                    </div>
+                                    <div class="score-card">
+                                        <span class="score-label">C</span>
+                                        <strong data-score="type">-</strong>
+                                    </div>
+                                    <div class="score-card">
+                                        <span class="score-label">T</span>
+                                        <strong data-score="temporal">-</strong>
+                                    </div>
+                                    <div class="score-card">
+                                        <span class="score-label">S</span>
+                                        <strong data-score="spatial">-</strong>
+                                    </div>
+                                </div>
+                                <p class="score-note" data-score="matched"></p>
+                                <a class="button button-secondary submit-pr-button" href="../../submission/index.html#zero-shot" hidden>Submit To The Leaderboard</a>
+                            </div>
+                        </dialog>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container leaderboard-page-grid">
+                <div class="table-card leaderboard-table-card" data-leaderboard-src="../../data/leaderboards/zero-shot.json">
+                    <div class="table-head">
+                        <h3>Leaderboard</h3>
+                        <span>Ranked by unified score</span>
+                    </div>
+                    <p class="leaderboard-intro">This table tracks methods evaluated without benchmark-specific supervision and links results back to their paper or code when provided.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Method</th>
+                                <th>Paper</th>
+                                <th>T</th>
+                                <th>S</th>
+                                <th>C</th>
+                                <th>ACC<sup>S</sup></th>
+                                <th>Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody class="leaderboard-table-body"></tbody>
+                    </table>
+                    <p class="leaderboard-empty">No scored submissions yet.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../../assets/js/site.js"></script>
+    <script src="../../data/labels.js"></script>
+    <script src="../../data/leaderboards.js"></script>
+    <script src="../../assets/js/submission-scoring.js"></script>
+    <script src="../../assets/js/leaderboard-render.js"></script>
+</body>
+</html>

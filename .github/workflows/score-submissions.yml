@@ -108,9 +108,9 @@ jobs:
 
       - name: Score submission
         run: |
-          python metrics.py \
+          python scripts/metrics.py \
             --submission "${{ steps.resolve.outputs.submission }}" \
-            --labels labels.csv \
+            --labels data/labels.csv \
             --output "scoring-results/result.json"
 
       - name: Update leaderboard JSON
@@ -120,7 +120,7 @@ jobs:
             --submission "${{ steps.resolve.outputs.submission }}" \
             --benchmark "${{ steps.resolve.outputs.benchmark }}" \
             --metadata scoring-results/pr-metadata.json \
-            --leaderboard "leaderboards/${{ steps.resolve.outputs.benchmark }}.json"
+            --leaderboard "data/leaderboards/${{ steps.resolve.outputs.benchmark }}.json"
 
       - name: Upload scoring artifact
         uses: actions/upload-artifact@v4
@@ -138,7 +138,7 @@ jobs:
 
             Source submission PR: #${{ steps.pr_metadata.outputs.pr_number }}
 
-            This PR was created by the scoring workflow after evaluating the submission against `labels.csv`.
+            This PR was created by the scoring workflow after evaluating the submission against `data/labels.csv`.
           branch: "bot/leaderboard-${{ steps.resolve.outputs.benchmark }}"
           add-paths: |
-            leaderboards/${{ steps.resolve.outputs.benchmark }}.json
+            data/leaderboards/${{ steps.resolve.outputs.benchmark }}.json
