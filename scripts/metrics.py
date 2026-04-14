@@ -12,11 +12,11 @@ BENCHMARK_ALIASES = {
     "iid": "iid",
     "in-distribution": "iid",
     "in_distribution": "iid",
-    "ood": "geo-aware",
-    "out-of-distribution": "geo-aware",
-    "out_of_distribution": "geo-aware",
-    "geo-aware": "geo-aware",
-    "geo_aware": "geo-aware",
+    "ood": "ood",
+    "out-of-distribution": "ood",
+    "out_of_distribution": "ood",
+    "geo-aware": "ood",
+    "geo_aware": "ood",
     "zero-shot": "zero-shot",
     "zero_shot": "zero-shot",
     "zeroshot": "zero-shot",
@@ -120,7 +120,7 @@ def type_accuracy_metric(predictions: Iterable[str], truth: Iterable[str]) -> fl
 def normalize_benchmark_name(value: str) -> str:
     normalized = value.strip().lower()
     if normalized not in BENCHMARK_ALIASES:
-        raise ValueError(f"Unsupported benchmark '{value}'. Expected one of: iid, in-distribution, ood, out-of-distribution, geo-aware, zero-shot.")
+        raise ValueError(f"Unsupported benchmark '{value}'. Expected one of: iid, in-distribution, ood, out-of-distribution, zero-shot.")
     return BENCHMARK_ALIASES[normalized]
 
 
@@ -148,7 +148,7 @@ def _filter_labels_for_benchmark(labels: pd.DataFrame, benchmark: str) -> pd.Dat
     benchmark = normalize_benchmark_name(benchmark)
     if benchmark == "iid":
         return labels[labels["split_in_distribution"] == "test"].copy()
-    if benchmark == "geo-aware":
+    if benchmark == "ood":
         return labels[labels["split_geo_aware"] == "test"].copy()
     return labels.copy()
 

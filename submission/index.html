@@ -20,7 +20,7 @@
                     </button>
                     <div class="nav-dropdown-menu" role="menu" aria-label="Benchmark leaderboards">
                         <a href="../benchmarks/in-distribution/index.html" role="menuitem">In-distribution</a>
-                        <a href="../benchmarks/out-of-distribution/index.html" role="menuitem">Out of distribution</a>
+                        <a href="../benchmarks/out-of-distribution/index.html" role="menuitem">Out-of-distribution</a>
                         <a href="../benchmarks/zero-shot/index.html" role="menuitem">Zero-shot</a>
                     </div>
                 </div>
@@ -45,10 +45,10 @@
                     </div>
                     <ol class="submission-steps">
                         <li>Go to the relevant leaderboard page (see Step 1 below) and use the built-in scorer on the website to check your CSV locally before submission.</li>
-                        <li>Prepare exactly one submission file for the correct benchmark folder:
+                        <li>Clone or fork the repository and prepare exactly one submission file for the correct benchmark folder:
                             <div class="submission-paths">
                                 <code>In-distribution -&gt; submissions/iid/team-name.csv</code>
-                                <code>Out-of-distribution -&gt; submissions/geo-aware/team-name.csv</code>
+                                <code>Out-of-distribution -&gt; submissions/ood/team-name.csv</code>
                                 <code>Zero-shot -&gt; submissions/zero-shot/team-name.csv</code>
                             </div>
                         </li>
@@ -80,11 +80,15 @@
                     </div>
                 </div>
                 <div class="card prose-card">
-                    <h3>Step 2: Place The CSV</h3>
-                    <p>Add exactly one CSV file under the folder that matches your benchmark. The repository paths currently map to the public benchmark names as follows.</p>
+                    <h3>Step 2: Clone Or Fork And Place The CSV</h3>
+                    <p>Clone or fork the repository, then add your CSV.</p>
+                    <div class="submission-paths">
+                        <code>git clone git@github.com:accidentbench/accidentbench.github.io.git</code>
+                    </div>
+                    <p>Add exactly one CSV file under the matching folder.</p>
                     <div class="submission-paths">
                         <code>In-distribution -&gt; submissions/iid/</code>
-                        <code>Out-of-distribution -&gt; submissions/geo-aware/</code>
+                        <code>Out-of-distribution -&gt; submissions/ood/</code>
                         <code>Zero-shot -&gt; submissions/zero-shot/</code>
                     </div>
                 </div>
@@ -98,7 +102,7 @@
                 </div>
                 <div class="card prose-card">
                     <h3>Step 4: Wait For Validation</h3>
-                    <p>Open the pull request against <code>main</code> and let the workflows handle the rest. The submission workflow checks the CSV, posts a score preview, and after merge the leaderboard pipeline can update the published results.</p>
+                    <p>Open the pull request against <code>main</code> and let the workflows handle the rest. The submission workflow checks the CSV, posts a score preview, and after merge the leaderboard pipeline can update the results.</p>
                     <ul class="feature-list">
                         <li><strong>Before merge:</strong> the PR is validated and scored.</li>
                         <li><strong>After merge:</strong> leaderboard data can be refreshed from the merged submission and metadata.</li>

@@ -12,7 +12,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Update leaderboard JSON with a scored submission.")
     parser.add_argument("--scores", required=True, type=Path)
     parser.add_argument("--submission", required=True, type=Path)
-    parser.add_argument("--benchmark", required=True, choices=["iid", "geo-aware", "zero-shot"])
+    parser.add_argument("--benchmark", required=True, choices=["iid", "ood", "zero-shot"])
     parser.add_argument("--metadata", type=Path)
     parser.add_argument("--leaderboard", required=True, type=Path)
     args = parser.parse_args()

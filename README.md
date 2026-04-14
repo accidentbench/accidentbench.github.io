@@ -64,7 +64,7 @@ ACCIDENT evaluates the same three tasks across three benchmark settings:
 Benchmark settings:
 
 - `in-distribution`
-- `out-of-distribution`
+- `ood`
 - `zero-shot`
 
 ## Leaderboards And Scoring
@@ -72,7 +72,7 @@ Benchmark settings:
 Leaderboard data lives in:
 
 - [`data/leaderboards/iid.json`](./data/leaderboards/iid.json)
-- [`data/leaderboards/geo-aware.json`](./data/leaderboards/geo-aware.json)
+- [`data/leaderboards/ood.json`](./data/leaderboards/ood.json)
 - [`data/leaderboards/zero-shot.json`](./data/leaderboards/zero-shot.json)
 
 Browser-side score preview is powered by:
@@ -89,7 +89,7 @@ Workflow and scoring utilities:
 
 ## Submission Flow
 
-1. Score your CSV on the benchmark page.
+1. Score your CSV on the relevant leaderboard page.
 2. Place the submission file under `submissions/<benchmark>/team-name.csv`.
 3. Open a pull request and fill out [`.github/pull_request_template.md`](./.github/pull_request_template.md).
 4. The PR workflow validates and scores the submission.
@@ -98,7 +98,7 @@ Workflow and scoring utilities:
 Current benchmark folder names used by the submission flow:
 
 - `iid`
-- `geo-aware`
+- `ood`
 - `zero-shot`
 
 ## Media And Assets

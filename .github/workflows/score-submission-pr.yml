@@ -119,11 +119,11 @@ jobs:
               "iid": "iid",
               "in-distribution": "iid",
               "in_distribution": "iid",
-              "ood": "geo-aware",
-              "out-of-distribution": "geo-aware",
-              "out_of_distribution": "geo-aware",
-              "geo-aware": "geo-aware",
-              "geo_aware": "geo-aware",
+              "ood": "ood",
+              "out-of-distribution": "ood",
+              "out_of_distribution": "ood",
+              "geo-aware": "ood",
+              "geo_aware": "ood",
               "zero-shot": "zero-shot",
               "zero_shot": "zero-shot",
               "zeroshot": "zero-shot",
@@ -131,7 +131,7 @@ jobs:
             const rawBenchmark = String(parsed.benchmark || "").trim().toLowerCase();
             const normalizedBenchmark = aliases[rawBenchmark];
             if (!normalizedBenchmark) {
-              core.setFailed(`Unsupported PR metadata benchmark '${parsed.benchmark}'. Use one of: In-distribution, Out-of-distribution, Zero-shot, iid, geo-aware, zero-shot.`);
+              core.setFailed(`Unsupported PR metadata benchmark '${parsed.benchmark}'. Use one of: In-distribution, Out-of-distribution, Zero-shot, iid, ood, zero-shot.`);
               return;
             }
 

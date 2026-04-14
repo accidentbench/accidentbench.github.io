@@ -18,7 +18,7 @@ on:
         type: choice
         options:
           - iid
-          - geo-aware
+          - ood
           - zero-shot
 
 permissions:

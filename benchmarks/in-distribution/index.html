@@ -15,12 +15,12 @@
             <nav class="main-nav" aria-label="Primary">
                 <a href="../../index.html">Home</a>
                 <div class="nav-dropdown">
-                    <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+                    <button class="nav-dropdown-toggle nav-is-current" type="button" aria-expanded="false" aria-haspopup="true">
                         Leaderboards
                     </button>
                     <div class="nav-dropdown-menu" role="menu" aria-label="Benchmark leaderboards">
-                        <a href="../in-distribution/index.html" role="menuitem">In-distribution</a>
-                        <a href="../out-of-distribution/index.html" role="menuitem">Out of distribution</a>
+                        <a href="../in-distribution/index.html" role="menuitem" aria-current="page">In-distribution</a>
+                        <a href="../out-of-distribution/index.html" role="menuitem">Out-of-distribution</a>
                         <a href="../zero-shot/index.html" role="menuitem">Zero-shot</a>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="card prose-card submission-panel">
                     <div class="submission-box submission-box-standalone" data-benchmark="iid" data-split-column="split_in_distribution" data-split-value="test" data-labels-src="../../data/labels.csv">
-                        <h3>Score Your Submittion</h3>
+                        <h3>Score Your Submission</h3>
                         <label class="upload-button">
                             <span>Select CSV File</span>
                             <input class="submission-input" type="file" accept=".csv,text/csv">
@@ -118,6 +118,18 @@
             </div>
         </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <p class="footer-mark">ACCIDENT</p>
+            <div class="footer-links">
+                <a href="https://github.com/accidentbench/ACCIDENT" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="https://www.kaggle.com/datasets/picekl/accident" target="_blank" rel="noreferrer">Kaggle</a>
+                <a href="../../submission/index.html">Submission Guide</a>
+            </div>
+        </div>
+    </footer>
+
     <script src="../../assets/js/site.js"></script>
     <script src="../../data/labels.js"></script>
     <script src="../../data/leaderboards.js"></script>

@@ -4,8 +4,8 @@ window.ACCIDENT_LEADERBOARDS = {
     "updated_at": null,
     "entries": []
   },
-  "geo-aware": {
-    "benchmark": "geo-aware",
+  "ood": {
+    "benchmark": "ood",
     "updated_at": null,
     "entries": []
   },
