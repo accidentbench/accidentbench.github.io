@@ -24,7 +24,7 @@
                         <a href="../benchmarks/zero-shot/index.html" role="menuitem">Zero-shot</a>
                     </div>
                 </div>
-                <a href="./">Submission Instructions</a>
+                <a href="../submission/index.html" aria-current="page">Submission Instructions</a>
             </nav>
         </div>
     </header>
@@ -33,7 +33,6 @@
         <section class="section benchmark-page-hero">
             <div class="container">
                 <h1 class="benchmark-page-title">Submission Guide</h1>
-                <p class="benchmark-page-subtitle">First score your CSV on the benchmark page, then submit it through a GitHub pull request with the required metadata.</p>
             </div>
         </section>
 
@@ -45,12 +44,12 @@
                         <span>Step by step</span>
                     </div>
                     <ol class="submission-steps">
-                        <li>Go to the relevant benchmark page and use the built-in scorer on the website to check your CSV locally before submission.</li>
+                        <li>Go to the relevant leaderboard page (see Step 1 below) and use the built-in scorer on the website to check your CSV locally before submission.</li>
                         <li>Prepare exactly one submission file for the correct benchmark folder:
                             <div class="submission-paths">
-                                <code>submissions/iid/team-name.csv</code>
-                                <code>submissions/geo-aware/team-name.csv</code>
-                                <code>submissions/zero-shot/team-name.csv</code>
+                                <code>In-distribution -&gt; submissions/iid/team-name.csv</code>
+                                <code>Out-of-distribution -&gt; submissions/geo-aware/team-name.csv</code>
+                                <code>Zero-shot -&gt; submissions/zero-shot/team-name.csv</code>
                             </div>
                         </li>
                         <li>Open a pull request against <code>main</code> and fill in the metadata block completely so the leaderboard can display the method name, authors, affiliation, and paper or code links.</li>
@@ -64,68 +63,99 @@
             <div class="container submission-guide-grid">
                 <div class="card prose-card">
                     <h3>Step 1: Score On The Website</h3>
-                    <p>Use the scorer available on the benchmark page before opening a pull request. This lets you verify that the file format is correct and that the score looks reasonable.</p>
-                    <div class="submission-paths">
-                        <a class="button button-secondary" href="../benchmarks/in-distribution/index.html">Open IID</a>
-                        <a class="button button-secondary" href="../benchmarks/out-of-distribution/index.html">Open OOD</a>
-                        <a class="button button-secondary" href="../benchmarks/zero-shot/index.html">Open Zero-shot</a>
+                    <p>Use the scorer available on the relevant leaderboard before opening a pull request. This lets you verify that the file format is correct and that the score looks reasonable.</p>
+                    <div class="submission-leaderboard-links">
+                        <a class="submission-leaderboard-link" href="../benchmarks/in-distribution/index.html">
+                            <strong>In-distribution</strong>
+                            <span>Open leaderboard</span>
+                        </a>
+                        <a class="submission-leaderboard-link" href="../benchmarks/out-of-distribution/index.html">
+                            <strong>Out-of-distribution</strong>
+                            <span>Open leaderboard</span>
+                        </a>
+                        <a class="submission-leaderboard-link" href="../benchmarks/zero-shot/index.html">
+                            <strong>Zero-shot</strong>
+                            <span>Open leaderboard</span>
+                        </a>
                     </div>
                 </div>
                 <div class="card prose-card">
                     <h3>Step 2: Place The CSV</h3>
-                    <p>Add exactly one CSV file under the folder that matches your benchmark and use the same benchmark value in the PR metadata.</p>
+                    <p>Add exactly one CSV file under the folder that matches your benchmark. The repository paths currently map to the public benchmark names as follows.</p>
                     <div class="submission-paths">
-                        <code>iid -> submissions/iid/</code>
-                        <code>geo-aware -> submissions/geo-aware/</code>
-                        <code>zero-shot -> submissions/zero-shot/</code>
+                        <code>In-distribution -&gt; submissions/iid/</code>
+                        <code>Out-of-distribution -&gt; submissions/geo-aware/</code>
+                        <code>Zero-shot -&gt; submissions/zero-shot/</code>
                     </div>
                 </div>
                 <div class="card prose-card">
                     <h3>Step 3: Add Metadata</h3>
-                    <p>Complete the PR metadata block so the leaderboard can show your method and reference links in a standardized way.</p>
+                    <p>Complete the PR metadata block so the leaderboard can show your method and reference links in a standardized way. You can review the required fields in the <a href="https://github.com/accidentbench/accidentbench.github.io/blob/main/.github/pull_request_template.md" target="_blank" rel="noreferrer">submission PR template</a>.</p>
                     <ul class="feature-list">
                         <li><strong>Include:</strong> method name, authors, affiliation, benchmark, contact email, paper link, code link, and a short description.</li>
                         <li><strong>Use:</strong> <code>paper_url: N/A</code> or <code>code_url: N/A</code> if a link is not public yet.</li>
+                    </ul>
+                </div>
+                <div class="card prose-card">
+                    <h3>Step 4: Wait For Validation</h3>
+                    <p>Open the pull request against <code>main</code> and let the workflows handle the rest. The submission workflow checks the CSV, posts a score preview, and after merge the leaderboard pipeline can update the published results.</p>
+                    <ul class="feature-list">
+                        <li><strong>Before merge:</strong> the PR is validated and scored.</li>
+                        <li><strong>After merge:</strong> leaderboard data can be refreshed from the merged submission and metadata.</li>
                     </ul>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <div class="container submission-guide-grid">
-                <div class="card prose-card">
-                    <h3>Example PR Metadata</h3>
-                    <p>Each submission PR should include the metadata block below. These fields are used directly for leaderboard display and benchmark review.</p>
-                    <pre class="submission-example"><code>```yaml
-method_name: Molmo-7B End-to-End
+            <div class="container submission-examples-shell">
+                <div class="submission-examples-divider" aria-hidden="true"></div>
+                <div class="submission-examples-head">
+                    <p>Reference examples</p>
+                </div>
+                <div class="submission-guide-grid">
+                    <div class="card prose-card submission-example-card">
+                        <h3>Example CSV Format</h3>
+                        <p>Your CSV must contain one row per evaluated clip and use the following columns.</p>
+                        <div class="submission-paths">
+                            <code>path</code>
+                            <code>accident_time</code>
+                            <code>center_x</code>
+                            <code>center_y</code>
+                            <code>type</code>
+                        </div>
+                        <pre class="submission-example"><code>path,accident_time,center_x,center_y,type
+videos/Z4kg2Ev3vhk_00.mp4,14.9835,0.5,0.5,single
+videos/unS0-TLF1ao_00.mp4,2.96,0.5,0.5,t-bone
+videos/UarP8qU1S-c_00.mp4,7.6665,0.5,0.5,single</code></pre>
+                    </div>
+                    <div class="card prose-card submission-example-card">
+                        <h3>Example PR Metadata</h3>
+                        <p>Use the <a href="https://github.com/accidentbench/accidentbench.github.io/blob/main/.github/pull_request_template.md" target="_blank" rel="noreferrer">PR template</a> and complete the metadata block so the leaderboard can display your submission consistently.</p>
+                        <pre class="submission-example"><code>method_name: Molmo-7B End-to-End
 authors: Jane Doe, John Smith
 affiliation: Example Lab, Example University
 paper_url: https://arxiv.org/abs/2604.09819
 code_url: https://github.com/example/accident-method
 contact_email: jane.doe@example.edu
 benchmark: zero-shot
-short_description: End-to-end zero-shot accident understanding baseline using prompt-based temporal, spatial, and collision-type reasoning.
-```</code></pre>
-                </div>
-                <div class="card prose-card">
-                    <h3>CSV Format</h3>
-                    <p>Your CSV must contain the following columns:</p>
-                    <div class="submission-paths">
-                        <code>path</code>
-                        <code>accident_time</code>
-                        <code>center_x</code>
-                        <code>center_y</code>
-                        <code>type</code>
+short_description: End-to-end zero-shot accident understanding baseline using prompt-based temporal, spatial, and collision-type reasoning.</code></pre>
                     </div>
-                    <p>The CSV should contain one row per evaluated clip. You can use the sample submission already in the repository as a reference for naming and column order.</p>
-                    <pre class="submission-example"><code>path,accident_time,center_x,center_y,type
-videos/Z4kg2Ev3vhk_00.mp4,14.9835,0.5,0.5,single
-videos/unS0-TLF1ao_00.mp4,2.96,0.5,0.5,t-bone
-videos/UarP8qU1S-c_00.mp4,7.6665,0.5,0.5,single</code></pre>
                 </div>
             </div>
         </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-shell">
+            <p class="footer-mark">ACCIDENT</p>
+            <div class="footer-links">
+                <a href="https://github.com/accidentbench/ACCIDENT" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="https://www.kaggle.com/datasets/picekl/accident" target="_blank" rel="noreferrer">Kaggle</a>
+                <a href="../submission/index.html">Submission Guide</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="../assets/js/site.js"></script>
 </body>
