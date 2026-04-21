@@ -114,14 +114,14 @@ jobs:
             --benchmark "${{ steps.resolve.outputs.benchmark }}" \
             --output "scoring-results/result.json"
 
-      - name: Update leaderboard JSON
+      - name: Update leaderboard bundle
         run: |
           python scripts/update_leaderboard.py \
             --scores scoring-results/result.json \
             --submission "${{ steps.resolve.outputs.submission }}" \
             --benchmark "${{ steps.resolve.outputs.benchmark }}" \
             --metadata scoring-results/pr-metadata.json \
-            --leaderboard "data/leaderboards/${{ steps.resolve.outputs.benchmark }}.json"
+            --bundle "data/leaderboards.js"
 
       - name: Upload scoring artifact
         uses: actions/upload-artifact@v4
@@ -142,4 +142,4 @@ jobs:
             This PR was created by the scoring workflow after evaluating the submission against `data/labels.csv`.
           branch: "bot/leaderboard-${{ steps.resolve.outputs.benchmark }}"
           add-paths: |
-            data/leaderboards/${{ steps.resolve.outputs.benchmark }}.json
+            data/leaderboards.js

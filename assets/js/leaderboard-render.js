@@ -4,21 +4,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    const source = card.dataset.leaderboardSrc;
+    const key = card.dataset.leaderboardKey;
     const body = card.querySelector(".leaderboard-table-body");
     const empty = card.querySelector(".leaderboard-empty");
     const table = card.querySelector("table");
     const sortButtons = card.querySelectorAll("[data-sort-key]");
-    if (!source || !body || !empty) {
+    if (!key || !body || !empty) {
         return;
     }
 
     let sortKey = "unified";
     let sortDirection = "desc";
 
-    function fallbackLeaderboard() {
-        const key = source.split("/").pop()?.replace(".json", "");
-        if (!key || !window.ACCIDENT_LEADERBOARDS) {
+    function getLeaderboard() {
+        if (!window.ACCIDENT_LEADERBOARDS) {
             return null;
         }
         return window.ACCIDENT_LEADERBOARDS[key] || null;
@@ -138,14 +137,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        let leaderboard = fallbackLeaderboard();
+        const leaderboard = getLeaderboard();
         if (!leaderboard) {
-            const response = await fetch(source);
-            if (!response.ok) {
-                throw new Error("Could not load leaderboard data.");
-            }
-            leaderboard = await response.json();
+            throw new Error("Could not load leaderboard data.");
         }
+
         const entries = Array.isArray(leaderboard.entries) ? leaderboard.entries : [];
 
         if (!entries.length) {
