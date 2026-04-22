@@ -4,31 +4,55 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+BUNDLE_PREFIX = "window.ACCIDENT_LEADERBOARDS = "
+
+
 def slugify_submission_name(path: str) -> str:
     return Path(path).stem.replace("_", "-")
 
 
+def load_bundle(path: Path) -> dict:
+    if not path.exists():
+        return {}
+
+    raw = path.read_text(encoding="utf-8").strip()
+    if not raw:
+        return {}
+    if raw.startswith(BUNDLE_PREFIX):
+        raw = raw[len(BUNDLE_PREFIX):]
+    if raw.endswith(";"):
+        raw = raw[:-1]
+    return json.loads(raw)
+
+
+def write_bundle(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(payload, indent=2)
+    path.write_text(f"{BUNDLE_PREFIX}{serialized};\n", encoding="utf-8")
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Update leaderboard JSON with a scored submission.")
+    parser = argparse.ArgumentParser(description="Update leaderboard bundle with a scored submission.")
     parser.add_argument("--scores", required=True, type=Path)
     parser.add_argument("--submission", required=True, type=Path)
     parser.add_argument("--benchmark", required=True, choices=["iid", "ood", "zero-shot"])
     parser.add_argument("--metadata", type=Path)
-    parser.add_argument("--leaderboard", required=True, type=Path)
+    parser.add_argument("--bundle", required=True, type=Path)
     args = parser.parse_args()
 
     scores = json.loads(args.scores.read_text(encoding="utf-8"))
     metadata = {}
     if args.metadata and args.metadata.exists():
         metadata = json.loads(args.metadata.read_text(encoding="utf-8"))
-    if args.leaderboard.exists():
-        leaderboard = json.loads(args.leaderboard.read_text(encoding="utf-8"))
-    else:
-        leaderboard = {
+    bundle = load_bundle(args.bundle)
+    leaderboard = bundle.get(
+        args.benchmark,
+        {
             "benchmark": args.benchmark,
             "updated_at": None,
             "entries": [],
-        }
+        },
+    )
 
     entry = {
         "submission_name": slugify_submission_name(args.submission.name),
@@ -58,8 +82,8 @@ def main() -> None:
     leaderboard["entries"].sort(key=lambda item: item["unified_score"], reverse=True)
     leaderboard["updated_at"] = datetime.now(timezone.utc).isoformat()
 
-    args.leaderboard.parent.mkdir(parents=True, exist_ok=True)
-    args.leaderboard.write_text(json.dumps(leaderboard, indent=2) + "\n", encoding="utf-8")
+    bundle[args.benchmark] = leaderboard
+    write_bundle(args.bundle, bundle)
 
 
 if __name__ == "__main__":

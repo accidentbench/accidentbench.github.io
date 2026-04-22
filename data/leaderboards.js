@@ -26,10 +26,10 @@ window.ACCIDENT_LEADERBOARDS = {
         "short_description": "Paper baseline from Table 5 (end-to-end, modular upper bound).",
         "matched_rows": 1520,
         "submission_rows": 1520,
-        "unified_score": 0.350086,
-        "type_accuracy": 0.415,
-        "temporal": { "1": 0.315 },
-        "spatial": { "1": 0.335 }
+        "unified_score": 0.412,
+        "type_accuracy": 0.433,
+        "temporal": { "1": 0.343 },
+        "spatial": { "1": 0.488 }
       },
       {
         "submission_name": "paper-molmo-7b",
@@ -44,10 +44,10 @@ window.ACCIDENT_LEADERBOARDS = {
         "short_description": "Paper baseline from Table 5 (end-to-end).",
         "matched_rows": 1520,
         "submission_rows": 1520,
-        "unified_score": 0.337441,
-        "type_accuracy": 0.29,
-        "temporal": { "1": 0.315 },
-        "spatial": { "1": 0.441 }
+        "unified_score": 0.358,
+        "type_accuracy": 0.293,
+        "temporal": { "1": 0.343},
+        "spatial": { "1": 0.488 }
       },
       {
         "submission_name": "paper-naive-baseline",
@@ -62,7 +62,7 @@ window.ACCIDENT_LEADERBOARDS = {
         "short_description": "Paper baseline from Table 5 (end-to-end).",
         "matched_rows": 1520,
         "submission_rows": 1520,
-        "unified_score": 0.244933,
+        "unified_score": 0.245,
         "type_accuracy": 0.335,
         "temporal": { "1": 0.19 },
         "spatial": { "1": 0.25 }

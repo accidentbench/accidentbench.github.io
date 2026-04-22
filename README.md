@@ -71,9 +71,7 @@ Benchmark settings:
 
 Leaderboard data lives in:
 
-- [`data/leaderboards/iid.json`](./data/leaderboards/iid.json)
-- [`data/leaderboards/ood.json`](./data/leaderboards/ood.json)
-- [`data/leaderboards/zero-shot.json`](./data/leaderboards/zero-shot.json)
+- [`data/leaderboards.js`](./data/leaderboards.js)
 
 Browser-side score preview is powered by:
 
