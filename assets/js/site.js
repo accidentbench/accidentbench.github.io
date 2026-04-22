@@ -13,6 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return result;
     };
 
+    const stopCardVideos = (card) => {
+        card.querySelectorAll("video").forEach((video) => {
+            video.pause();
+            video.currentTime = 0;
+        });
+    };
+
     const applyAssetFilter = (filterGroup, filter) => {
         const cards = Array.from(document.querySelectorAll(`.asset-card-sample[data-filter-group="${filterGroup}"]`));
         const visibleCards = filter === "all" ? shuffleCards(cards) : cards;
@@ -27,6 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const withinDefaultLimit = filter !== "all" || visibleCount < 8;
             const show = matches && withinDefaultLimit;
 
+            card.dataset.hidden = show ? "false" : "true";
+
+            if (!show) {
+                stopCardVideos(card);
+            }
             if (show) {
                 card.dataset.hidden = "false";
                 visibleCount += 1;

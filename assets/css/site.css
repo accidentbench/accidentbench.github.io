@@ -945,6 +945,12 @@ thead th {
     gap: 1.2rem;
 }
 
+.submission-guide-grid > *,
+.submission-leaderboard-links > *,
+.leaderboard-page-grid > * {
+    min-width: 0;
+}
+
 .submission-examples-shell {
     display: grid;
     gap: 1rem;
@@ -1016,11 +1022,16 @@ thead th {
 }
 
 .submission-paths code {
+    display: block;
+    max-width: 100%;
     padding: 0.2rem 0.45rem;
     border-radius: 8px;
     background: rgba(29, 26, 23, 0.06);
     font-family: "SFMono-Regular", Menlo, monospace;
     font-size: 0.75em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .submission-example {
@@ -1365,18 +1376,43 @@ thead th {
     }
 
     .main-nav {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
         gap: 0.75rem;
+    }
+
+    .main-nav > a,
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .nav-dropdown {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .nav-dropdown-toggle {
+        width: 100%;
+        text-align: left;
     }
 
     .nav-dropdown-menu {
         position: static;
+        display: none;
         margin-top: 0.2rem;
-        opacity: 1;
-        pointer-events: auto;
+        opacity: 0;
+        pointer-events: none;
         transform: none;
         min-width: 0;
         box-shadow: none;
         background: rgba(255, 253, 248, 0.72);
+    }
+
+    .nav-dropdown.open .nav-dropdown-menu {
+        display: grid;
+        opacity: 1;
+        pointer-events: auto;
     }
 
     .hero {

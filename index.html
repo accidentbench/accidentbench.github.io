@@ -156,7 +156,7 @@
                         This setting differs substantially from dashcam-based accident understanding: CCTV footage is
                         fixed-view, often low quality, affected by compression artifacts, occlusion, and poor lighting,
                         and lacks ego-motion cues. ACCIDENT is designed as a benchmark dataset for this surveillance
-                        setting, evaluating the same three tasks, when the accident happens, where it happens, and what
+                        setting, evaluating the same three tasks, i.e., <b>when</b> the accident happens, <b>where</b> it happens, and <b>what</b>
                         type of collision it is, across three scenarios: in-distribution, out-of-distribution, and
                         zero-shot, reflecting how such systems would be used in practice.
                     </p>
@@ -305,13 +305,6 @@
                                 <h4>T-bone</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="real-world"
-                                data-type="t-bone">
-                                <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/real-world/tbone-rd.mp4" type="video/mp4">
-                                </video>
-                                <h4>T-bone</h4>
-                            </article>
-                            <article class="card asset-card asset-card-sample" data-filter-group="real-world"
                                 data-type="head-on">
                                 <video controls preload="metadata" muted loop>
                                     <source src="./assets/videos/real-world/headon.mp4" type="video/mp4">
@@ -368,13 +361,6 @@
                                 <h4>Rear-end</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="real-world"
-                                data-type="rear-end">
-                                <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/real-world/rearend-sn%20(3).mp4" type="video/mp4">
-                                </video>
-                                <h4>Rear-end</h4>
-                            </article>
-                            <article class="card asset-card asset-card-sample" data-filter-group="real-world"
                                 data-type="sideswipe">
                                 <video controls preload="metadata" muted loop>
                                     <source src="./assets/videos/real-world/sideswipe.mp4" type="video/mp4">
@@ -403,13 +389,6 @@
                                 <h4>Sideswipe</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="real-world"
-                                data-type="sideswipe">
-                                <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/real-world/sideswipe%20(3).mp4" type="video/mp4">
-                                </video>
-                                <h4>Sideswipe</h4>
-                            </article>
-                            <article class="card asset-card asset-card-sample" data-filter-group="real-world"
                                 data-type="single">
                                 <video controls preload="metadata" muted loop>
                                     <source src="./assets/videos/real-world/single-rn.mp4" type="video/mp4">
@@ -434,13 +413,6 @@
                                 data-type="single">
                                 <video controls preload="metadata" muted loop>
                                     <source src="./assets/videos/real-world/single%20(3).mp4" type="video/mp4">
-                                </video>
-                                <h4>Single-vehicle</h4>
-                            </article>
-                            <article class="card asset-card asset-card-sample" data-filter-group="real-world"
-                                data-type="single">
-                                <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/real-world/single%20(4).mp4" type="video/mp4">
                                 </video>
                                 <h4>Single-vehicle</h4>
                             </article>
@@ -479,70 +451,140 @@
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="head-on">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/headon-display.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town03_head-on_clear_30.mp4" type="video/mp4">
                                 </video>
                                 <h4>Head-on scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="head-on">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/headon-rgb.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town03_head-on_wet_49.mp4" type="video/mp4">
+                                </video>
+                                <h4>Head-on scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="head-on">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town05_head-on_rain_53.mp4" type="video/mp4">
+                                </video>
+                                <h4>Head-on scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="head-on">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town06_head-on_sunset_12.mp4" type="video/mp4">
                                 </video>
                                 <h4>Head-on scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="sideswipe">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/sideswipe-rgb.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town05_sideswipe_clear_05.mp4" type="video/mp4">
                                 </video>
                                 <h4>Sideswipe scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="sideswipe">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/sideswipe-display.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town05_sideswipe_sunset_30.mp4" type="video/mp4">
+                                </video>
+                                <h4>Sideswipe scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="sideswipe">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town05_sideswipe_wet_42.mp4" type="video/mp4">
+                                </video>
+                                <h4>Sideswipe scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="sideswipe">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town06_sideswipe_clear_45.mp4" type="video/mp4">
                                 </video>
                                 <h4>Sideswipe scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="rear-end">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/rearend-rgb.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town04_rear-end_clear_14.mp4" type="video/mp4">
                                 </video>
                                 <h4>Rear-end scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="rear-end">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/rearend-display.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town04_rear-end_wet_46.mp4" type="video/mp4">
+                                </video>
+                                <h4>Rear-end scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="rear-end">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town07_rear-end_clear_45.mp4" type="video/mp4">
+                                </video>
+                                <h4>Rear-end scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="rear-end">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town07_rear-end_sunset_28.mp4" type="video/mp4">
                                 </video>
                                 <h4>Rear-end scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="t-bone">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/tbone-display.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town03_t-bone_clear_37.mp4" type="video/mp4">
                                 </video>
                                 <h4>T-bone scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="t-bone">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/tbone-rgb.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town03_t-bone_wet_43.mp4" type="video/mp4">
+                                </video>
+                                <h4>T-bone scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="t-bone">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town07_t-bone_clear_25.mp4" type="video/mp4">
+                                </video>
+                                <h4>T-bone scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="t-bone">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town10HD_t-bone_sunset_04.mp4" type="video/mp4">
                                 </video>
                                 <h4>T-bone scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="single">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/single-rgb.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town07_single_sunset_29.mp4" type="video/mp4">
                                 </video>
                                 <h4>Single-vehicle scenario</h4>
                             </article>
                             <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
                                 data-type="single">
                                 <video controls preload="metadata" muted loop>
-                                    <source src="./assets/videos/synthetic/single-display.mp4" type="video/mp4">
+                                    <source src="./assets/videos/synthetic/Town07_single_wet_00.mp4" type="video/mp4">
+                                </video>
+                                <h4>Single-vehicle scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="single">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/Town10HD_single_sunset_32.mp4" type="video/mp4">
+                                </video>
+                                <h4>Single-vehicle scenario</h4>
+                            </article>
+                            <article class="card asset-card asset-card-sample" data-filter-group="synthetic"
+                                data-type="single">
+                                <video controls preload="metadata" muted loop>
+                                    <source src="./assets/videos/synthetic/single-rgb.mp4" type="video/mp4">
                                 </video>
                                 <h4>Single-vehicle scenario</h4>
                             </article>
