@@ -3,18 +3,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const panels = document.querySelectorAll(".tab-panel");
     const dropdowns = document.querySelectorAll(".nav-dropdown");
     const assetFilterButtons = document.querySelectorAll(".asset-filter-button");
+
+    const shuffleCards = (cards) => {
+        const result = cards.slice();
+        for (let i = result.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+    };
+
     const applyAssetFilter = (filterGroup, filter) => {
         const cards = Array.from(document.querySelectorAll(`.asset-card-sample[data-filter-group="${filterGroup}"]`));
-        let visibleCount = 0;
+        const visibleCards = filter === "all" ? shuffleCards(cards) : cards;
 
         cards.forEach((card) => {
+            card.dataset.hidden = "true";
+        });
+
+        let visibleCount = 0;
+        visibleCards.forEach((card) => {
             const matches = filter === "all" || card.dataset.type === filter;
             const withinDefaultLimit = filter !== "all" || visibleCount < 8;
             const show = matches && withinDefaultLimit;
 
-            card.dataset.hidden = show ? "false" : "true";
-
             if (show) {
+                card.dataset.hidden = "false";
                 visibleCount += 1;
             }
         });
