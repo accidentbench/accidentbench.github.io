@@ -1,5 +1,6 @@
 import argparse
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -29,6 +30,13 @@ def write_bundle(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(payload, indent=2)
     path.write_text(f"{BUNDLE_PREFIX}{serialized};\n", encoding="utf-8")
+
+
+def leaderboard_sort_key(entry: dict) -> tuple[int, float]:
+    score = entry.get("unified_score")
+    if isinstance(score, (int, float)) and math.isfinite(score):
+        return (0, -float(score))
+    return (1, 0.0)
 
 
 def main() -> None:
@@ -79,7 +87,7 @@ def main() -> None:
         if existing.get("source_file") != entry["source_file"]
     ]
     leaderboard["entries"].append(entry)
-    leaderboard["entries"].sort(key=lambda item: item["unified_score"], reverse=True)
+    leaderboard["entries"].sort(key=leaderboard_sort_key)
     leaderboard["updated_at"] = datetime.now(timezone.utc).isoformat()
 
     bundle[args.benchmark] = leaderboard
