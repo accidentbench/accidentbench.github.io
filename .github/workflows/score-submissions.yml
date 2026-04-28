@@ -20,6 +20,10 @@ on:
           - iid
           - ood
           - zero-shot
+      pr_number:
+        description: "Merged submission PR number for manual recovery runs"
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -69,20 +73,59 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const sha = context.sha;
-            const pulls = await github.paginate(
-              github.rest.repos.listPullRequestsAssociatedWithCommit,
-              {
+            const submissionPath = "${{ steps.resolve.outputs.submission }}";
+            const manualPrNumber = "${{ github.event.inputs.pr_number || '' }}".trim();
+            let pr = null;
+
+            if (context.eventName === "workflow_dispatch" && manualPrNumber) {
+              const response = await github.rest.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                commit_sha: sha,
-                per_page: 100,
-              }
-            );
+                pull_number: Number(manualPrNumber),
+              });
+              pr = response.data;
 
-            const pr = pulls.find((item) => item.merged_at) || pulls[0];
+              if (!pr.merged_at) {
+                core.setFailed(`Pull request #${manualPrNumber} is not merged.`);
+                return;
+              }
+
+              const files = await github.paginate(
+                github.rest.pulls.listFiles,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  per_page: 100,
+                }
+              );
+
+              const touchedSubmission = files.some((file) => file.filename === submissionPath);
+              if (!touchedSubmission) {
+                core.setFailed(`Pull request #${manualPrNumber} does not include submission '${submissionPath}'.`);
+                return;
+              }
+            } else {
+              const sha = context.sha;
+              const pulls = await github.paginate(
+                github.rest.repos.listPullRequestsAssociatedWithCommit,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  commit_sha: sha,
+                  per_page: 100,
+                }
+              );
+
+              pr = pulls.find((item) => item.merged_at) || pulls[0];
+            }
+
             if (!pr) {
-              core.setFailed(`No pull request associated with commit ${sha}.`);
+              core.setFailed(
+                context.eventName === "workflow_dispatch"
+                  ? "No submission pull request could be resolved. Provide pr_number for manual recovery runs."
+                  : `No pull request associated with commit ${context.sha}.`
+              );
               return;
             }
 
