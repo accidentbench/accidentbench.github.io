@@ -23,6 +23,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         return window.ACCIDENT_LEADERBOARDS[key] || null;
     }
 
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
+
     function formatScore(value) {
         const number = Number(value);
         return Number.isFinite(number) ? number.toFixed(4) : "-";
@@ -75,18 +84,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function methodCell(entry) {
-        const method = entry.method_name || entry.submission_name || "Unnamed submission";
-        const lines = [`<strong>${method}</strong>`];
+        const method = escapeHtml(entry.method_name || entry.submission_name || "Unnamed submission");
+        const lines = ['<div class="leaderboard-method-cell">'];
+        lines.push('<div class="leaderboard-method-line">');
+        lines.push(`<strong class="leaderboard-method-name">${method}</strong>`);
         if (entry.entry_kind === "baseline") {
             lines.push('<span class="leaderboard-chip">Baseline</span>');
         }
-        const meta = [entry.authors, entry.affiliation].filter(Boolean).join(" | ");
-        if (meta) {
-            lines.push(`<span class="leaderboard-meta">${meta}</span>`);
+        lines.push("</div>");
+
+        if (entry.authors) {
+            const authors = escapeHtml(entry.authors);
+            lines.push(`
+                <span class="leaderboard-meta leaderboard-meta-authors">
+                    <span class="leaderboard-tooltip-trigger" tabindex="0">${authors}</span>
+                    <span class="leaderboard-tooltip" role="tooltip">${authors}</span>
+                </span>
+            `);
         }
         if (entry.short_description) {
-            lines.push(`<span class="leaderboard-meta">${entry.short_description}</span>`);
+            const description = escapeHtml(entry.short_description);
+            lines.push(`
+                <span class="leaderboard-meta leaderboard-meta-description">
+                    <span class="leaderboard-tooltip-trigger" tabindex="0">${description}</span>
+                    <span class="leaderboard-tooltip" role="tooltip">${description}</span>
+                </span>
+            `);
         }
+        lines.push("</div>");
         return lines.join("");
     }
 
@@ -119,13 +144,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+    function updateOverflowTooltips() {
+        body.querySelectorAll(".leaderboard-meta-authors, .leaderboard-meta-description").forEach((wrapper) => {
+            const trigger = wrapper.querySelector(".leaderboard-tooltip-trigger");
+            if (!trigger) {
+                return;
+            }
+            const isTruncated = trigger.scrollWidth > trigger.clientWidth;
+            wrapper.dataset.tooltipActive = isTruncated ? "true" : "false";
+            trigger.tabIndex = isTruncated ? 0 : -1;
+        });
+    }
+
     function renderRows(entries, leaderboard) {
         const rankedEntries = [...entries].sort(compareEntries);
 
         body.innerHTML = rankedEntries.map((entry, index) => `
             <tr${entry.entry_kind === "baseline" ? ' class="leaderboard-row-baseline"' : ""}>
                 <td><strong>${index + 1}</strong></td>
-                <td>${methodCell(entry)}</td>
+                <td class="leaderboard-method-column">${methodCell(entry)}</td>
                 <td>${paperCell(entry)}</td>
                 <td>${formatScore(entry.temporal?.["1"])}</td>
                 <td>${formatScore(entry.spatial?.["1"])}</td>
@@ -134,6 +171,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${formatDate(entry.updated_at || leaderboard.updated_at)}</td>
             </tr>
         `).join("");
+        updateOverflowTooltips();
     }
 
     try {

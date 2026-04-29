@@ -1073,6 +1073,77 @@ thead th {
     font-size: 0.9rem;
 }
 
+.leaderboard-method-cell {
+    min-width: 0;
+    width: 100%;
+}
+
+.leaderboard-method-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.leaderboard-method-name {
+    display: inline-block;
+    color: var(--ink);
+}
+
+.leaderboard-meta-authors {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+.leaderboard-meta-description {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+.leaderboard-tooltip-trigger {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.leaderboard-meta-authors[data-tooltip-active="true"] .leaderboard-tooltip-trigger,
+.leaderboard-meta-description[data-tooltip-active="true"] .leaderboard-tooltip-trigger {
+    cursor: help;
+}
+
+.leaderboard-tooltip {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 0.45rem);
+    z-index: 20;
+    width: min(28rem, 70vw);
+    padding: 0.7rem 0.8rem;
+    border-radius: 12px;
+    background: rgba(20, 26, 34, 0.96);
+    color: #f5f7fa;
+    box-shadow: 0 16px 36px rgba(15, 20, 28, 0.22);
+    white-space: normal;
+    line-height: 1.45;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.leaderboard-meta-authors[data-tooltip-active="true"]:hover .leaderboard-tooltip,
+.leaderboard-meta-authors[data-tooltip-active="true"]:focus-within .leaderboard-tooltip,
+.leaderboard-meta-description[data-tooltip-active="true"]:hover .leaderboard-tooltip,
+.leaderboard-meta-description[data-tooltip-active="true"]:focus-within .leaderboard-tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
 .leaderboard-sort-button {
     display: inline-flex;
     align-items: center;
@@ -1116,7 +1187,7 @@ thead th {
 .leaderboard-chip {
     display: inline-flex;
     align-items: center;
-    margin-top: 0.45rem;
+    margin-top: 0;
     padding: 0.18rem 0.5rem;
     border-radius: 999px;
     background: rgba(198, 147, 69, 0.16);
@@ -1138,6 +1209,39 @@ thead th {
 
 .leaderboard-table-card table {
     outline: none;
+    table-layout: fixed;
+}
+
+.leaderboard-table-card th,
+.leaderboard-table-card td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.leaderboard-table-card table th:nth-child(3),
+.leaderboard-table-card table td:nth-child(3) {
+    width: 6.5rem;
+}
+
+.leaderboard-table-card table th:nth-child(4),
+.leaderboard-table-card table td:nth-child(4),
+.leaderboard-table-card table th:nth-child(5),
+.leaderboard-table-card table td:nth-child(5),
+.leaderboard-table-card table th:nth-child(6),
+.leaderboard-table-card table td:nth-child(6),
+.leaderboard-table-card table th:nth-child(7),
+.leaderboard-table-card table td:nth-child(7) {
+    width: 5.5rem;
+}
+
+.leaderboard-table-card table th:nth-child(8),
+.leaderboard-table-card table td:nth-child(8) {
+    width: 7rem;
+}
+
+.leaderboard-method-column {
+    width: auto;
+    min-width: 0;
 }
 
 .comparison-card table th:first-child,

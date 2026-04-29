@@ -14,10 +14,36 @@ window.ACCIDENT_LEADERBOARDS = {
     "updated_at": "2026-04-28T22:09:59.093786+00:00",
     "entries": [
       {
+        "submission_name": "Team-GAILforce",
+        "source_file": "submissions/zero-shot/Team_GAILforce.csv",
+        "scored_at": "2026-04-28T22:12:13.755657+00:00",
+        "method_name": "Qwen-VLM Coarse-to-Fine CCTV Accident Detector",
+        "authors": "Donghun Ryu",
+        "affiliation": "GAIL Lab, Chung-ang University",
+        "paper_url": "N/A",
+        "code_url": "N/A",
+        "contact_email": "{donghun0621@cau.ac.kr}",
+        "short_description": "Zero-shot CCTV accident detection pipeline using Qwen VLM with hierarchical coarse-to-fine spatial-temporal scanning. Coarse stage uses 3x3 overlapping spatial regions with ordinal score (0-5) plus phase classification (score2). Top-K candidates are clustered via IoU-based region merging, then refined at 8fps and 12fps. Type is verified on peak-centered frames, and accident point is localized via 3-round 3x3 grid zoom-in.",
+        "matched_rows": 2027,
+        "submission_rows": 2027,
+        "unified_score": 0.564331683327759,
+        "type_accuracy": 0.5673408978786384,
+        "temporal": {
+          "0.5": 0.4545951907969805,
+          "1": 0.5701838022302613,
+          "2": 0.6885336746255961
+        },
+        "spatial": {
+          "0.5": 0.3662012728563063,
+          "1": 0.5556810445324373,
+          "2": 0.7421381971558539
+        }
+      },
+      {
         "submission_name": "cynapfleet",
         "source_file": "submissions/zero-shot/cynapfleet.csv",
         "scored_at": "2026-04-28T22:09:59.093763+00:00",
-        "method_name": "Two-Pass Hybrid YOLO11x + Qwen3-VL Coarse-to-Fine CCTV Accident Detector",
+        "method_name": "Two-Pass Hybrid YOLO11x + Qwen3-VL Coarse-to-Fine",
         "authors": "Dipit Saha, Shah Mohammad Abdul Mannan, Mohammad Raihan Rashid, Ruwad Naswan, Ahnaf Tahmid",
         "affiliation": "CSE, Bangladesh University of Engineering and Technology (BUET)",
         "paper_url": "N/A",
