@@ -652,6 +652,32 @@ h3 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.citation-card {
+    display: grid;
+    gap: 0.8rem;
+    max-width: 58rem;
+}
+
+.citation-card h2 {
+    margin: 0;
+}
+
+.citation-bibtex {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    border: 1px solid rgba(24, 32, 42, 0.08);
+    background: rgba(248, 250, 252, 0.95);
+    overflow-x: auto;
+}
+
+.citation-bibtex code {
+    font-family: "SFMono-Regular", Menlo, monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre;
+}
+
 .card,
 .table-card,
 .callout {
