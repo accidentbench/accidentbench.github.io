@@ -3,6 +3,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const panels = document.querySelectorAll(".tab-panel");
     const dropdowns = document.querySelectorAll(".nav-dropdown");
     const assetFilterButtons = document.querySelectorAll(".asset-filter-button");
+    let canLoadAssetVideos = false;
+
+    const loadCardVideos = (card) => {
+        card.querySelectorAll("video").forEach((video) => {
+            let shouldLoad = false;
+            video.querySelectorAll("source[data-src]").forEach((source) => {
+                source.src = source.dataset.src;
+                source.removeAttribute("data-src");
+                shouldLoad = true;
+            });
+
+            if (shouldLoad) {
+                video.load();
+            }
+        });
+    };
 
     const shuffleCards = (cards) => {
         const result = cards.slice();
@@ -40,10 +56,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 stopCardVideos(card);
             }
             if (show) {
+                if (canLoadAssetVideos) {
+                    loadCardVideos(card);
+                }
                 card.dataset.hidden = "false";
                 visibleCount += 1;
             }
         });
+    };
+
+    const loadDeferredAssetVideos = () => {
+        const cards = Array.from(document.querySelectorAll(".asset-card-sample"));
+        const visibleCards = cards.filter((card) => card.dataset.hidden !== "true");
+        const hiddenCards = cards.filter((card) => card.dataset.hidden === "true");
+        const loadHiddenCards = () => hiddenCards.forEach(loadCardVideos);
+
+        canLoadAssetVideos = true;
+        visibleCards.forEach(loadCardVideos);
+
+        if ("requestIdleCallback" in window) {
+            window.requestIdleCallback(loadHiddenCards, { timeout: 3000 });
+        } else {
+            window.setTimeout(loadHiddenCards, 1200);
+        }
     };
 
     buttons.forEach((button) => {
@@ -101,4 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ["real-world", "synthetic"].forEach((filterGroup) => {
         applyAssetFilter(filterGroup, "all");
     });
+
+    window.addEventListener("load", loadDeferredAssetVideos, { once: true });
 });
